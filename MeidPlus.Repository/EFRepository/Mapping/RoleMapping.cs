@@ -10,7 +10,7 @@ namespace MeidPlus.Repository.EFRepository.Mapping
     {
         public void Configure(EntityTypeBuilder<Role> builder)
         {
-            builder.ToTable("db_SupplierStore");
+            builder.ToTable("roletest");
             builder.HasKey(a => a.Id);
             builder.Property(a => a.Id).HasColumnName("SSID");
             builder.Property(a => a.Name).HasColumnName("SStoreName");

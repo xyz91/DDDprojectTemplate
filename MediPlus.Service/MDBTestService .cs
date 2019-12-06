@@ -10,10 +10,10 @@ using MediPlus.Service.Interface;
 
 namespace MediPlus.Service
 {
-    public class HolidayService : BaseService<MDBYearHoliday, string,HolidayDTO>, IHolidayService
+    public class MDBTestService : BaseService<MDBTest,int,MDBTestDTO>, IMDBTestService
     {
-        private IMDBHolidayRepository holidayRepository;
-        public HolidayService(IMDBHolidayRepository repository):base(repository){
+        private IMDBTestRepository  repository;
+        public MDBTestService(IMDBTestRepository repository):base(repository){
         }
     }
 }

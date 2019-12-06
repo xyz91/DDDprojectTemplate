@@ -5,8 +5,8 @@ using MediPlus.Domain.IRepositories.BaseRepository;
 using MediPlus.Domain.Model;
 namespace MediPlus.Domain.IRepositories
 {
-  public  interface IMDBHolidayRepository  : IRepository<MDBYearHoliday, string>
+  public  interface IMDBTestRepository : IRepository<MDBTest, int>
     {
-        MDBYearHoliday GetHoliday(string id);
+        
     }
 }

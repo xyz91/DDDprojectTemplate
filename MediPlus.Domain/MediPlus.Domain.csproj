@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
@@ -6,10 +6,6 @@
 
   <ItemGroup>
     <Compile Remove="IRepositories\IUnitOfWorkRepositoryContext.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="MongoDB.Bson" Version="2.9.3" />
   </ItemGroup>
 
 </Project>

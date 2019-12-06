@@ -11,19 +11,19 @@ using MeidPlus.Repository.MongoRepository.Context;
 
 namespace MeidPlus.Repository.MongoRepository
 {
-  public  class MDBHolidayRepository : MongoBaseRepository<MDBYearHoliday,ObjectId>, IMDBHolidayRepository
+  public  class MDBHolidayRepository : MongoBaseRepository<MDBYearHoliday,string>, IMDBHolidayRepository
     {
         public MDBHolidayRepository(MediplusContext unitOfWork):base(unitOfWork) {
            
         }
 
-        public MDBYearHoliday GetMDBYearHoliday(ObjectId id)
+        public MDBYearHoliday GetMDBYearHoliday(string id)
         {
 
           return  Entities.SingleOrDefault(a => a.Id == id);
         }
         public MDBYearHoliday GetHoliday(string id) {
-            return GetById(ObjectId.Parse(id));
+            return GetById(id);
         }
     }
 }

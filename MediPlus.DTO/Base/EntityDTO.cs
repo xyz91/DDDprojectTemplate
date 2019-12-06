@@ -4,8 +4,9 @@ using System.Text;
 
 namespace MediPlus.DTO
 {
-   public abstract class EntityDTO<K>
+   public abstract class EntityDTO<K>: EntityDTOTag
     {
-        public virtual K Id { get; protected set; }
+        public virtual K Id { get;  set; }
     }
+    public abstract class EntityDTOTag { }
 }

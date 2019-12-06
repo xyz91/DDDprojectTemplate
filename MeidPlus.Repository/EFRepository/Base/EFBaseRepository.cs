@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using MediPlus.Domain.IRepositories;
 using MediPlus.Domain.IRepositories.BaseRepository;
@@ -8,7 +9,7 @@ using MediPlus.Domain.Model;
 using MediPlus.Domain.Model.BaseModel;
 using MeidPlus.Repository.Base;
 using MeidPlus.Repository.EFRepository.Base;
-
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 namespace MeidPlus.Repository.EFRepository
 {
     public abstract class EFBaseRepository<T, K> : BaseRepository, IRepository<T, K> where T : AggregateRoot<K>
@@ -24,17 +25,24 @@ namespace MeidPlus.Repository.EFRepository
             if (t == null)
             {
                 return 0;
-            }
+            }                              
             return Delete(t);
         }
-       
+        public virtual void Load<P>(T t, Expression<Func<T, IEnumerable<P>>> expression) where P:class
+        {
+            unitOfWork.Entry(t).Collection<P>(expression).Load();
+        }
+        public virtual void Load<P>(T t, Expression<Func<T, P>> expression) where P:class{
+            unitOfWork.Entry(t).Reference(expression).Load();
+        }
+
         public virtual int Delete(params T[] t) {
             unitOfWork.Set<T>().RemoveRange(t);
             return unitOfWork.Commit();
         }
         public virtual T GetById(K id) => unitOfWork.Set<T>().Find(id);
         public virtual int Insert(params T[] t) {
-            unitOfWork.AddRange(t);
+            unitOfWork.AddRange(t);      
            return  unitOfWork.Commit();
         }
         public virtual int Update(T[] t) {

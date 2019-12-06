@@ -12,8 +12,8 @@ namespace MeidPlus.Repository.EFRepository
    public class UserRepository : EFBaseRepository<User, int>, IUserRepository
     {
         
-        public UserRepository(MediPlusContext unitOfWork):base(unitOfWork) { 
-                
+        public UserRepository(MediPlusContext unitOfWork):base(unitOfWork) {
+                                                
         }
     }
 }

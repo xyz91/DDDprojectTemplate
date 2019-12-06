@@ -19,8 +19,11 @@ namespace MediPlus.Web.Controllers
         }
         public UserDTO Get()
         {
+
+       // return    userService.Addrole(1, new RoleDTO() { Name = "测试2"});
+
            // var ss = userService.Select(a => a.ServiceType == typeof(IUUserService));
-            var o = userService.GetUser(2);
+            var o = userService.GetDTOById(1);
             return o;
             //return View();
         }

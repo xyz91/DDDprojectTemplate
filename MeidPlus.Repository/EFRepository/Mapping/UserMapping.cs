@@ -10,11 +10,12 @@ namespace MeidPlus.Repository.EFRepository.Mapping
    public class UserMapping : IEntityTypeConfiguration<User>
     {
         public void Configure(EntityTypeBuilder<User> builder) {
-            builder.ToTable("db_Supplier");
+            builder.ToTable("usertest");
             builder.HasKey(a => a.Id);
             builder.Property(a => a.Id).HasColumnName("SID");
             builder.Property(a => a.Name).HasColumnName("SName");
             builder.HasMany<Role>(a => a.Roles).WithOne(a => a.User).HasForeignKey(a => a.UserId);
+           
         }
     }
 }

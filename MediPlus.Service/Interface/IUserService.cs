@@ -6,8 +6,8 @@ using MediPlus.DTO;
 
 namespace MediPlus.Service.Interface
 {
-  public  interface IUserService
+  public  interface IUserService  : IBaseService<User, int, UserDTO>
     {
-        UserDTO GetUser(int id); 
+        int Addrole(int id, RoleDTO role);
     }
 }

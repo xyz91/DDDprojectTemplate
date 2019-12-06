@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using MeidPlus.Repository.MongoRepository.Mapping;
 using Microsoft.Extensions.Configuration;
 using MongoDB.Driver;
 
@@ -12,5 +13,9 @@ namespace MeidPlus.Repository.MongoRepository.Context
         }
         protected override string DataBaseName => "Mediplus";
 
+
+        static MediplusContext() {
+            MDBHolidayMapping.Register();
+        }
     }
 }

@@ -7,19 +7,23 @@ using MediPlus.Domain.Model;
 using MediPlus.DTO;
 using MediPlus.Service.Base;
 using MediPlus.Service.Interface;
-
+using System.Linq;
 namespace MediPlus.Service
 {
-   public class UserService: BaseService,IUserService
+   public class UserService: BaseService<User,int,UserDTO>,IUserService
     {
-        private IUserRepository userRepository;
-        public UserService(IUserRepository userRepository) {
-            this.userRepository = userRepository;
+        public UserService(IUserRepository userRepository):base(userRepository) {
+            
         }
 
-        public UserDTO GetUser(int id) {
-            var user = userRepository.GetById(id);
-            return Map<UserDTO>(user); 
+        public int Addrole(int id,RoleDTO role) {
+          var o =  GetById(id);
+          var oo =  o.Roles.Skip(1).Take(1);
+           var rr = oo.ToList();
+            repository.Load<Role>(o, t => t.Roles);
+            // o.AddRole(Map<RoleDTO, Role>(role));
+            //return  Update(o);
+            return 3;
         }
     }
 }

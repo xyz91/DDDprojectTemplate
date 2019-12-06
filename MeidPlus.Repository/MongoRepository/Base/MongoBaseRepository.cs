@@ -52,8 +52,11 @@ namespace MeidPlus.Repository.MongoRepository
             Collection.InsertMany(t);                   
             return 1;
         }
+         [Obsolete("Mongodb不提供此方法",true)]
+        public void Load<P>(T t, System.Linq.Expressions.Expression<Func<T, IEnumerable<P>>> expression) where P : class => throw new NotImplementedException();
+        [Obsolete("Mongodb不提供此方法", true)]
+        public void Load<P>(T t, System.Linq.Expressions.Expression<Func<T, P>> expression) where P : class => throw new NotImplementedException();
 
-       
         public int Update(T t) {
             List<UpdateDefinition<T>> updates = new List<UpdateDefinition<T>>();
             var filter = Builders<T>.Filter.Eq(a => a.Id, t.Id);

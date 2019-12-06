@@ -16,6 +16,9 @@ using System.Text.Unicode;
 using Newtonsoft.Json.Serialization;
 using MediPlus.Service.Base;
 using MediPlus.API.Filters;
+using Autofac;
+using Autofac.Extensions.DependencyInjection;
+using System.ComponentModel.Design;
 
 namespace MediPlus.Web
 {
@@ -35,7 +38,7 @@ namespace MediPlus.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.ServiceInit();
+            
             services.AddControllers(option=> {
                 option.Filters.Add<ExceptionFilter>();
                 option.Filters.Add<ResultFilter>();
@@ -44,14 +47,13 @@ namespace MediPlus.Web
                 option.SerializerSettings.ContractResolver = new DefaultContractResolver();
                 option.SerializerSettings.DateFormatString = "yyyy-MM-dd HH:mm:ss";
             });
-            //services.AddDbContextPool<MediPlusContext>(option => {
-            //    option.UseLazyLoadingProxies().UseSqlServer(Configuration.GetConnectionString("con"));
-            //});
-            //services.AddDbContextPool<MediPlus2Context>(option => {
-            //    option.UseLazyLoadingProxies().UseSqlServer(Configuration.GetConnectionString("con2"));
-            //});
 
-            
+            //ContainerBuilder builder = new ContainerBuilder();
+            //builder.Populate(services);
+           services.ServiceInit();
+        }
+        public void ConfigureContainer(ContainerBuilder builder) {
+            builder.ServiceInit();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

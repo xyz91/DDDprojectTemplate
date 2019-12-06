@@ -8,6 +8,7 @@ namespace MediPlus.DTO
     {
         public string Name { get; private set; }
 
-        public virtual List<RoleDTO> Roles { get; set; }
+        //public virtual ICollection<RoleDTO> Roles { get; set; }
+   
     }
 }

@@ -10,13 +10,9 @@ using MediPlus.DTO;
 
 namespace MediPlus.Service
 {
-    public class BizOrderService : BaseService,IBizOrderService
+    public class BizOrderService : BaseService<BizOrder, int,BizOrderDTO>, IBizOrderService
     {
-        private IBizOrderRepository bizOrderRepository;
-        
-        public BizOrderService(IBizOrderRepository bizOrderRepository) {
-            this.bizOrderRepository = bizOrderRepository;
+        public BizOrderService(IBizOrderRepository bizOrderRepository):base(bizOrderRepository) {
         }
-        public BizOrderDTO GetBizOrder(int id) =>Map<BizOrderDTO>( bizOrderRepository.GetById(id));
     }
 }

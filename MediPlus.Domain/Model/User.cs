@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using MediPlus.Domain.Model.BaseModel;
 
@@ -14,10 +15,12 @@ namespace MediPlus.Domain.Model
             this.Name = name;
         }
         public string Name { get;private set; }
-       
-        public virtual List<Role> Roles { get; }
+
+
+        public virtual ICollection<Role> Roles { get; set; }
+                                 
         public void AddRole(Role role) {
-            this.Roles.Add(role);
+            this.Roles = new[] { role };                     
         }
         public bool RemoveRole(Role role) {
            return  this.Roles.Remove(role);
