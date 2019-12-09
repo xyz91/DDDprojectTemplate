@@ -10,7 +10,7 @@ namespace MediPlus.Service
     {
         public M Map<S, M>(S s);
        public D Map(T obj);
-
+        public  IEnumerable<T> Search(System.Linq.Expressions.Expression<Func<T, bool>> expression, int pageIndex = 1, int pageSize = 10);
       public  T Map(D obj);
 
         public T GetById(K id);

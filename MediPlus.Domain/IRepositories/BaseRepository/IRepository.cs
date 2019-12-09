@@ -17,7 +17,7 @@ namespace MediPlus.Domain.IRepositories.BaseRepository
         int Delete(params T[] t);
         int Update(params T[] t);
         T GetById(K id);
-
+        IQueryable<T> Search(System.Linq.Expressions.Expression<Func<T, bool>> expression, int pageIndex = 1, int pageSize = 10);
         void Load<P>(T t, Expression<Func<T, IEnumerable<P>>> expression) where P : class;
         void Load<P>(T t, Expression<Func<T, P>> expression) where P : class;
 

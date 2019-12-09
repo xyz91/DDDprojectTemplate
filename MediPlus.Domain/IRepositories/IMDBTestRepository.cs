@@ -7,6 +7,6 @@ namespace MediPlus.Domain.IRepositories
 {
   public  interface IMDBTestRepository : IRepository<MDBTest, int>
     {
-        
+    
     }
 }

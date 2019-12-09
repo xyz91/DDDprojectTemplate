@@ -28,6 +28,10 @@ namespace MeidPlus.Repository.EFRepository
             }                              
             return Delete(t);
         }
+        public IQueryable<T> Search(System.Linq.Expressions.Expression<Func<T, bool>> expression, int pageIndex = 1, int pageSize = 10)
+        {
+            return Entities.Where(expression).Skip(pageSize * (pageIndex - 1)).Take(pageSize);
+        }
         public virtual void Load<P>(T t, Expression<Func<T, IEnumerable<P>>> expression) where P:class
         {
             unitOfWork.Entry(t).Collection<P>(expression).Load();

@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using AutoMapper;
 using MediPlus.Domain.IRepositories.BaseRepository;
@@ -15,6 +17,9 @@ namespace MediPlus.Service
         protected BaseService(IRepository<T, K> repository){
             this.repository = repository;              
             
+        }
+        public  IEnumerable<T> Search(System.Linq.Expressions.Expression<Func<T, bool>> expression, int pageIndex = 1, int pageSize = 10) {
+            return repository.Search(expression, pageIndex, pageSize).ToArray();
         }
         public M Map<S,M>(S s) {
            return Mapper.Map<S, M>(s);
@@ -51,6 +56,8 @@ namespace MediPlus.Service
         public int Update(D d) {
             return repository.Update(Map(d));
         }
+
+      
     }
 
     public class BaseTag 

@@ -42,6 +42,8 @@ namespace MeidPlus.Repository.MongoRepository.Mapping
                 
             });
             BsonClassMap.RegisterClassMap<MDBTest>();
+            BsonClassMap.RegisterClassMap<ChildNode>();
+            BsonClassMap.RegisterClassMap<MMTest>();
         }
 
 

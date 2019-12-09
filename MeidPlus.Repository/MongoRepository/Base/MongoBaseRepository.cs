@@ -29,6 +29,11 @@ namespace MeidPlus.Repository.MongoRepository
             var filter = Builders<T>.Filter.Eq(a=>a.Id,id);
            return Convert.ToInt32(Collection.DeleteOne(filter).DeletedCount);
         }
+        public IQueryable<T> Search(System.Linq.Expressions.Expression<Func<T,bool>> expression,int pageIndex=1,int pageSize=10) {
+
+          
+            return Entities.Where(expression).Skip(pageSize*(pageIndex-1)).Take(pageSize);
+        }
         public int Delete(params T[] t) {
             List< FilterDefinition<T>> filter = new List<FilterDefinition<T>>();
             foreach (var item in t)
@@ -42,7 +47,6 @@ namespace MeidPlus.Repository.MongoRepository
             //var ooo =  Entities.FirstOrDefault();
             
             var filter = Builders<T>.Filter.Eq(a => a.Id, id);
-
             var oo = Collection.Find(filter);
               var ooo = oo  .First();                         
 

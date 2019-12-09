@@ -16,6 +16,7 @@
   <ItemGroup>
     <ProjectReference Include="..\MediPlus.Domain\MediPlus.Domain.csproj" />
     <ProjectReference Include="..\MediPlus.DTO\MediPlus.DTO.csproj" />
+    <ProjectReference Include="..\MediPlus.Utility\MediPlus.Utility.csproj" />
     <ProjectReference Include="..\MeidPlus.Repository\MeidPlus.Repository.csproj" />
   </ItemGroup>
 

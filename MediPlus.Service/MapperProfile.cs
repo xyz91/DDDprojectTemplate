@@ -24,7 +24,7 @@ namespace MediPlus.Service
             }
 
             CreateMap<Role, RoleDTO>().ReverseMap();
-
+            CreateMap<ChildNode, ChildNodeDTO>().ReverseMap();
 
         }
     }

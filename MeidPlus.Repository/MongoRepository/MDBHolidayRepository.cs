@@ -25,5 +25,8 @@ namespace MeidPlus.Repository.MongoRepository
         public MDBYearHoliday GetHoliday(string id) {
             return GetById(id);
         }
+
+
+       
     }
 }
