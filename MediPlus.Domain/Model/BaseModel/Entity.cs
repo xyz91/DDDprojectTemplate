@@ -5,7 +5,7 @@ using MediPlus.Domain.Model.BaseModel;
 
 namespace MediPlus.Domain.Model
 {
-   public abstract class Entity<K>: EntityTag, IEntity
+   public abstract class Entity<K>:EntityTag, IEntity
     {
         protected Entity(K id) {
             this.Id = id;

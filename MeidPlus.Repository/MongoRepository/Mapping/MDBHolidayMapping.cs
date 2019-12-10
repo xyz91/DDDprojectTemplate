@@ -17,20 +17,22 @@ namespace MeidPlus.Repository.MongoRepository.Mapping
     {
       
         public static void Register() {
+            BsonClassMap.RegisterClassMap<EntityTag>(a => {
+                a.AutoMap();
+                a.SetIgnoreExtraElements(true);
+                a.SetIgnoreExtraElementsIsInherited(true);
+                
+            });
             BsonClassMap.RegisterClassMap<Entity<string>>(a=> {
                 a.AutoMap();
                 a.MapIdProperty(p => p.Id)
                     .SetIdGenerator(StringObjectIdGenerator.Instance)
                     .SetSerializer(new StringSerializer().
                     WithRepresentation(BsonType.ObjectId));
-                a.SetIgnoreExtraElements(true);
-                a.SetIgnoreExtraElementsIsInherited(true);
             });
             BsonClassMap.RegisterClassMap<Entity<int>>(a => {
                 a.AutoMap();
                 a.MapIdProperty(p => p.Id);                   
-                a.SetIgnoreExtraElements(true);
-                a.SetIgnoreExtraElementsIsInherited(true);
             });
             BsonClassMap.RegisterClassMap<MDBYearHoliday>(a => {
                 a.AutoMap();              
@@ -41,9 +43,22 @@ namespace MeidPlus.Repository.MongoRepository.Mapping
                // a.SetIgnoreExtraElements(true);
                 
             });
+
+           var ooo =  new BsonClassMap(typeof(int));
+            BsonClassMap.RegisterClassMap(ooo);
             BsonClassMap.RegisterClassMap<MDBTest>();
             BsonClassMap.RegisterClassMap<ChildNode>();
-            BsonClassMap.RegisterClassMap<MMTest>();
+            //BsonClassMap.RegisterClassMap<MMTest>();
+
+           var types = typeof(EntityTag).Assembly.GetTypes().Where(a=>typeof(EntityTag).IsAssignableFrom(a));
+            foreach (var item in types)
+            {
+                if (!BsonClassMap.IsClassMapRegistered(item))
+                {
+                    BsonClassMap.RegisterClassMap(new BsonClassMap(item));
+                }
+            }
+            
         }
 
 

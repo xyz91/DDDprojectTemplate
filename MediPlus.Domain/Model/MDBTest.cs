@@ -20,16 +20,6 @@ namespace MediPlus.Domain.Model
         public int Type { get; set; }
     }
 
-    public class MMTest : AggregateRoot<int>
-    {
-        public MMTest(int id) : base(id) { }
-        public MMTest(int id, string name) : this(id)
-        {
-            this.Name = name;
-        }
-        public string Name { get; set; }
-        public IEnumerable<int> SIDs { get; set; }
-        public ChildNode Nodes { get; set; }
-    }
+  
     
 }

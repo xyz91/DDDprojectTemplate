@@ -17,7 +17,7 @@ namespace MeidPlus.Repository.MongoRepository.Base
         protected MongoContext(IConfiguration configuration)
         {
             this.Configuration = configuration;
-            Client = new MongoClient(Configuration.GetConnectionString(Connstr));
+            Client = new MongoClient(Configuration.GetConnectionString(Connstr));   
         }
         
         public  IMongoCollection<T> GetCollection<T>() =>Database.GetCollection<T>(typeof(T).Name);

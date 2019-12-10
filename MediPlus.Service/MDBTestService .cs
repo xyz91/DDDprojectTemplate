@@ -23,7 +23,7 @@ namespace MediPlus.Service
 
        public IEnumerable<MDBTestDTO> Searcha(MDBTestDTOPage page) {
 
-         
+            repository.SearchAll();
 
             Expression<Func<MDBTest, bool>> expression = a => true;
             if (page.Id != null)
