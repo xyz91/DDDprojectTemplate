@@ -17,20 +17,20 @@ namespace MeidPlus.Repository.MongoRepository.Mapping
     {
       
         public static void Register() {
-            BsonClassMap.RegisterClassMap<EntityTag>(a => {
+            BsonClassMap.RegisterClassMap<Entity>(a => {
                 a.AutoMap();
                 a.SetIgnoreExtraElements(true);
                 a.SetIgnoreExtraElementsIsInherited(true);
                 
             });
-            BsonClassMap.RegisterClassMap<Entity<string>>(a=> {
+            BsonClassMap.RegisterClassMap<AggregateRoot<string>>(a=> {
                 a.AutoMap();
                 a.MapIdProperty(p => p.Id)
                     .SetIdGenerator(StringObjectIdGenerator.Instance)
                     .SetSerializer(new StringSerializer().
                     WithRepresentation(BsonType.ObjectId));
             });
-            BsonClassMap.RegisterClassMap<Entity<int>>(a => {
+            BsonClassMap.RegisterClassMap<AggregateRoot<int>>(a => {
                 a.AutoMap();
                 a.MapIdProperty(p => p.Id);                   
             });
@@ -50,7 +50,7 @@ namespace MeidPlus.Repository.MongoRepository.Mapping
             BsonClassMap.RegisterClassMap<ChildNode>();
             //BsonClassMap.RegisterClassMap<MMTest>();
 
-           var types = typeof(EntityTag).Assembly.GetTypes().Where(a=>typeof(EntityTag).IsAssignableFrom(a));
+           var types = typeof(Entity).Assembly.GetTypes().Where(a=>typeof(Entity).IsAssignableFrom(a));
             foreach (var item in types)
             {
                 if (!BsonClassMap.IsClassMapRegistered(item))

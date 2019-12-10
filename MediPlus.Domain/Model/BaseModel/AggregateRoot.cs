@@ -5,8 +5,11 @@ using MediPlus.Domain.Model.BaseModel;
 
 namespace MediPlus.Domain.Model
 {
-   public abstract class AggregateRoot<K> :Entity<K>,IAggregateRoot
+   public abstract class AggregateRoot<K> :Entity,IAggregateRoot<K>
     {
-        protected AggregateRoot(K k):base(k) { }
+        protected AggregateRoot(K k) {
+            this.Id = k;
+        }
+        public virtual K Id { get; protected set; }
     }
 }

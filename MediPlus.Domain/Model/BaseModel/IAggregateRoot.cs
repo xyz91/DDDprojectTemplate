@@ -4,7 +4,7 @@ using System.Text;
 
 namespace MediPlus.Domain.Model.BaseModel
 {
-    interface IAggregateRoot:IEntity
+    interface IAggregateRoot<K>:IEntity
     {
     }
 }

@@ -15,7 +15,7 @@ namespace MeidPlus.Repository.EFRepository.Mapping
             builder.Property(a => a.Id).HasColumnName("SID");
             builder.Property(a => a.Name).HasColumnName("SName");
             builder.HasMany<Role>(a => a.Roles).WithOne(a => a.User).HasForeignKey(a => a.UserId);
-           
+            //builder.HasQueryFilter(); //可使用set<User>().IgnoreQueryFilters() 方法来忽略过滤
         }
     }
 }
