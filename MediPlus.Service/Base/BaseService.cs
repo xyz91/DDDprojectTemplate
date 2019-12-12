@@ -20,9 +20,7 @@ namespace MediPlus.Service
             this.repository = repository;              
             
         }
-        public  IEnumerable<T> Search(System.Linq.Expressions.Expression<Func<T, bool>> expression, int pageIndex = 1, int pageSize = 10) {
-            return repository.Search(expression, pageIndex, pageSize).ToArray();
-        }
+      
         public M Map<S,M>(S s) {
            return Mapper.Map<S, M>(s);
         }

@@ -5,7 +5,7 @@ using MediPlus.Domain.IRepositories.BaseRepository;
 using MediPlus.Domain.Model;
 namespace MediPlus.Domain.IRepositories
 {
-   public interface IUserRepository : IRepository <User,int>
+   public interface IUserRepository : IRepository <User,int>, IEFRepository<User, int>
     {
     }
 }

@@ -13,7 +13,7 @@ using MeidPlus.Repository.EFRepository.Base;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 namespace MeidPlus.Repository.EFRepository
 {
-    public abstract class EFBaseRepository<T, K>: IRepository<T, K> where T : AggregateRoot<K>
+    public abstract class EFBaseRepository<T, K>: IRepository<T, K>, IEFRepository<T, K> where T : AggregateRoot<K>
     {
         private EFUnitOfWork unitOfWork;
         public EFBaseRepository(EFUnitOfWork unitOfWork) {
@@ -29,9 +29,21 @@ namespace MeidPlus.Repository.EFRepository
             }                              
             return Delete(t);
         }
-        public IQueryable<T> Search(System.Linq.Expressions.Expression<Func<T, bool>> expression, int pageIndex = 1, int pageSize = 10)
-        {
-            return Entities.Where(expression).Skip(pageSize * (pageIndex - 1)).Take(pageSize);
+        public PageModel<T> Search<P>(int pageIndex , int pageSize , Expression<Func<T, bool>> where=null, Expression<Func<T, P>> orderby=null, bool desc = true)
+        {            
+            PageModel<T> page = new PageModel<T>() { PageIndex = pageIndex, PageSize = pageSize};
+           page.DataCount =  Entities.Count(where);
+              where = where??(t=>true);
+            var query = Entities.Where(where);
+            if (orderby != null)
+            {
+                query = desc ? query.OrderByDescending(orderby) : query.OrderBy(orderby);
+            }
+            page.List = query.Skip(page.PageSize * (page.PageIndex - 1)).Take(pageSize).ToList();
+            return page;
+        }
+        public PageModel<T> Search(int pageIndex, int pageSize, Expression<Func<T, bool>> where = null) {
+            return Search<K>(pageIndex, pageSize, where,a=>a.Id,true);
         }
         public virtual void Load<P>(T t, Expression<Func<T, IEnumerable<P>>> expression) where P:class
         {

@@ -11,10 +11,11 @@ using MediPlus.Domain.Model.BaseModel;
 using MeidPlus.Repository.Base;
 using MeidPlus.Repository.MongoRepository.Base;
 using MediPlus.Domain.Model;
+using System.Linq.Expressions;
 
 namespace MeidPlus.Repository.MongoRepository
 {
-    public abstract class MongoBaseRepository<T,K> : IRepository<T, K> where T : AggregateRoot<K> 
+    public abstract class MongoBaseRepository<T,K> : IRepository<T, K>, IMongoRepository<T, K> where T : AggregateRoot<K> 
     {
         private MongoUnitOfWork unitOfWork;
         protected MongoBaseRepository(MongoUnitOfWork unitOfWork) {
@@ -30,10 +31,22 @@ namespace MeidPlus.Repository.MongoRepository
             var filter = Builders<T>.Filter.Eq(a=>a.Id,id);
            return Convert.ToInt32(Collection.DeleteOne(filter).DeletedCount);
         }
-        public IQueryable<T> Search(System.Linq.Expressions.Expression<Func<T,bool>> expression,int pageIndex=1,int pageSize=10) {
-
-          
-            return Entities.Where(expression).Skip(pageSize*(pageIndex-1)).Take(pageSize);
+        public PageModel<T> Search<P>(int pageIndex, int pageSize, Expression<Func<T, bool>> where = null, Expression<Func<T, P>> orderby = null, bool desc = true)
+        {
+            PageModel<T> page = new PageModel<T>() { PageIndex = pageIndex, PageSize = pageSize };
+            page.DataCount = Entities.Count(where);
+            where = where ?? (t => true);
+            var query = Entities.Where(where);
+            if (orderby != null)
+            {
+                query = desc ? query.OrderByDescending(orderby) : query.OrderBy(orderby);
+            }
+            page.List = query.Skip(page.PageSize * (page.PageIndex - 1)).Take(pageSize).ToList();
+            return page;
+        }
+        public PageModel<T> Search(int pageIndex, int pageSize, Expression<Func<T, bool>> where = null)
+        {
+            return Search<K>(pageIndex, pageSize, where, a=>a.Id,true);
         }
         public int Delete(T t) {
             List< FilterDefinition<T>> filter = new List<FilterDefinition<T>>();
@@ -48,12 +61,7 @@ namespace MeidPlus.Repository.MongoRepository
         public int Insert(T t) {
             Collection.InsertOne(t);                   
             return 1;
-        }
-         [Obsolete("Mongodb不提供此方法",true)]
-        public void Load<P>(T t, System.Linq.Expressions.Expression<Func<T, IEnumerable<P>>> expression) where P : class => throw new NotImplementedException();
-        [Obsolete("Mongodb不提供此方法", true)]
-        public void Load<P>(T t, System.Linq.Expressions.Expression<Func<T, P>> expression) where P : class => throw new NotImplementedException();
-
+        }        
         public int Update(T t) {
             List<UpdateDefinition<T>> updates = new List<UpdateDefinition<T>>();
             var filter = Builders<T>.Filter.Eq(a => a.Id, t.Id);

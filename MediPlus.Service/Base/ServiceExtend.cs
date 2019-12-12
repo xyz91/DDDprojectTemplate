@@ -42,7 +42,6 @@ namespace MediPlus.Service.Base
             var repositorytypes = repository.GetTypes().ToList();
 
             var servertypes = typeof(BaseTag).Assembly.GetTypes();
-            var pli = new List<Type>();
             
             foreach (var item in servertypes.Where(a => !a.IsAbstract && a.BaseType.IsGenericType && a.BaseType.GetGenericTypeDefinition() == typeof(BaseService<,,>)))
             {
@@ -51,7 +50,6 @@ namespace MediPlus.Service.Base
                 {
                     builder.RegisterType(item).As(inter).EnableInterfaceInterceptors();
                 }
-                pli.Add(item);
             }
            
             foreach (var item in repositorytypes.Where(a => !a.IsAbstract && typeof(IUnitOfWork).IsAssignableFrom(a)))
@@ -60,7 +58,6 @@ namespace MediPlus.Service.Base
             }
             foreach (var item in repositorytypes.Where(a=>!a.IsAbstract &&(a.BaseType?.IsGenericType??false) && a.BaseType.GetInterfaces().Any(b=>b.IsGenericType && b.GetGenericTypeDefinition() == typeof(IRepository<,>))))
             {
-                var sec = domaininterface.Where(a => a.IsAssignableFrom(item));
                 var inter = domaininterface.SingleOrDefault(a => a.IsAssignableFrom(item));
                 if (inter != null)
                 {

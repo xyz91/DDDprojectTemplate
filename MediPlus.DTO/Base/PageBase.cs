@@ -8,7 +8,9 @@ namespace MediPlus.DTO
     {
         public int PageIndex { get; set; } = 1;
         public int PageSize { get; set; } = 10;
-        public IEnumerable<T> List { get; set; }
-        public int Count { get; set; }
+        public ICollection<T> List { get; set; }
+        public int DataCount { get; set; }
+        public int PageCount => (int)Math.Ceiling((double)DataCount / PageSize);
+       
     }
 }

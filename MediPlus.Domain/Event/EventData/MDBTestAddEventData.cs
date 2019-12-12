@@ -7,7 +7,7 @@ namespace MediPlus.Domain.Event
 {
    public class MDBTestAddEventData:EventData
     {
-        public MDBTestAddEventData(User user):base(EventType.BeforeSave) {
+        public MDBTestAddEventData(User user) {
             this.User = user;
         }
         public User User { get; }

@@ -23,7 +23,7 @@ namespace MediPlus.Service
 
        public IEnumerable<MDBTestDTO> Searcha(MDBTestDTOPage page) {
 
-            repository.SearchAll();
+           
            // MDBTest test = new MDBTest();
             //test.AddEvent += Test_AddEvent;
 
@@ -40,22 +40,22 @@ namespace MediPlus.Service
             {
                 expression = expression.And(a=>a.Nodes.Any(b=>b.Type==page.Type.Value));
             }
-          var ooo =  repository.Entities.Where(a => a.Nodes.Any(b => b.Type == page.Type.Value)).SelectMany(a => a.Nodes).ToList();
+         // var ooo =  repository.Entities.Where(a => a.Nodes.Any(b => b.Type == page.Type.Value)).SelectMany(a => a.Nodes).ToList();
 
-          var oooooo =   repository.Entities.SelectMany(a => a.Nodes).Where(a=>a.Type==page.Type.Value).ToArray();
+        //  var oooooo =   repository.Entities.SelectMany(a => a.Nodes).Where(a=>a.Type==page.Type.Value).ToArray();
             //var o = from a in repository.Entities
             //        select  new
             //        {    a.Id, a.Name,
             //           node= a.Nodes.Where(c => c.Type == page.Type.Value)
             //        };
             //var ooo3ooo = o.ToArray();
-            
-            var mdbtest = Search(expression,page.PageIndex,page.PageSize).ToArray();
+
+            var mdbtest = repository.Search(page.PageIndex, page.PageSize, expression);
         // var oo34o =   repository.Entities.Aggregate(16, (a, b) => a + b.Id, a => a);
             
 
             //typeof(Expression<Func<MDBTest, bool>>).MakeGenericType()
-            return Map<MDBTest[], MDBTestDTO[]>(mdbtest.ToArray());
+            return Map<MDBTest[], MDBTestDTO[]>(mdbtest.List.ToArray());
             //return Search(expression, pageIndex, pageSize);
         }
 

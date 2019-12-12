@@ -29,7 +29,7 @@ namespace MediPlus.Web.Controllers
         public  int Get()
         {
 
-                MDBTestDTOPage page = new MDBTestDTOPage {Type = 4};
+                MDBTestDTOPage page = new MDBTestDTOPage {Type = 4,PageSize = 2};
                 testService.Searcha(page).ToArray();
 
             return 2;

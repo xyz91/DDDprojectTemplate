@@ -5,8 +5,8 @@ using MediPlus.Domain.IRepositories.BaseRepository;
 using MediPlus.Domain.Model;
 namespace MediPlus.Domain.IRepositories
 {
-  public  interface IMDBTestRepository : IRepository<MDBTest, int>
+  public  interface IMDBTestRepository : IRepository<MDBTest, int> , IMongoRepository<MDBTest, int>
     {
-        void SearchAll();
+       
     }
 }
