@@ -14,7 +14,7 @@ using MediPlus.Domain.Model;
 
 namespace MeidPlus.Repository.MongoRepository
 {
-    public abstract class MongoBaseRepository<T,K> : BaseRepository, IRepository<T, K> where T : AggregateRoot<K> 
+    public abstract class MongoBaseRepository<T,K> : IRepository<T, K> where T : AggregateRoot<K> 
     {
         private MongoUnitOfWork unitOfWork;
         protected MongoBaseRepository(MongoUnitOfWork unitOfWork) {
@@ -25,7 +25,8 @@ namespace MeidPlus.Repository.MongoRepository
 
         public IMongoCollection<T> Collection => unitOfWork.GetCollection<T>();
 
-        public int Delete(K id){
+        public int Delete(K id)
+        {
             var filter = Builders<T>.Filter.Eq(a=>a.Id,id);
            return Convert.ToInt32(Collection.DeleteOne(filter).DeletedCount);
         }
@@ -34,26 +35,18 @@ namespace MeidPlus.Repository.MongoRepository
           
             return Entities.Where(expression).Skip(pageSize*(pageIndex-1)).Take(pageSize);
         }
-        public int Delete(params T[] t) {
+        public int Delete(T t) {
             List< FilterDefinition<T>> filter = new List<FilterDefinition<T>>();
-            foreach (var item in t)
-            {               
-                    filter.Add(Builders<T>.Filter.Eq(a => a.Id, item.Id));                               
-            }
-           var result = Collection.DeleteMany(Builders<T>.Filter.Or(filter)).DeletedCount;
-            return Convert.ToInt32(result);
+            
+           var result = Collection.DeleteOne(Builders<T>.Filter.Eq(a=>a.Id,t.Id));
+            return Convert.ToInt32(result.DeletedCount);
         }
         public T GetById(K id) {
-            //var ooo =  Entities.FirstOrDefault();
-            
             var filter = Builders<T>.Filter.Eq(a => a.Id, id);
-            var oo = Collection.Find(filter);
-              var ooo = oo  .First();                         
-
-            return ooo;
+            return Collection.Find(filter).FirstOrDefault();
         }
-        public int Insert(params T[] t) {
-            Collection.InsertMany(t);                   
+        public int Insert(T t) {
+            Collection.InsertOne(t);                   
             return 1;
         }
          [Obsolete("Mongodb不提供此方法",true)]
@@ -64,15 +57,10 @@ namespace MeidPlus.Repository.MongoRepository
         public int Update(T t) {
             List<UpdateDefinition<T>> updates = new List<UpdateDefinition<T>>();
             var filter = Builders<T>.Filter.Eq(a => a.Id, t.Id);
-
             var result = Collection.ReplaceOne(filter, t, new UpdateOptions() { IsUpsert = true });
             return Convert.ToInt32( result.ModifiedCount);
         }
 
-        [Obsolete("error",true)]
-        public int Update(params T[] t) {
-            
-            return 0;
-        }
+       
     }
 }

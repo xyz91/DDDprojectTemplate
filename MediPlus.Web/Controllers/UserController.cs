@@ -17,14 +17,14 @@ namespace MediPlus.Web.Controllers
         public UserController(IUserService userService) {
             this.userService = userService;
         }
-        public UserDTO Get()
+        public int Get()
         {
 
-       // return    userService.Addrole(1, new RoleDTO() { Name = "测试2"});
+        return    userService.Addrole(1, new RoleDTO() { Name = "22222测试2"});
 
            // var ss = userService.Select(a => a.ServiceType == typeof(IUUserService));
             var o = userService.GetDTOById(1);
-            return o;
+            //return o;
             //return View();
         }
     }

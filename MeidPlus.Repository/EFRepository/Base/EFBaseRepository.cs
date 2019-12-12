@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
+using MediPlus.Domain.Event;
 using MediPlus.Domain.IRepositories;
 using MediPlus.Domain.IRepositories.BaseRepository;
 using MediPlus.Domain.Model;
@@ -12,7 +13,7 @@ using MeidPlus.Repository.EFRepository.Base;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 namespace MeidPlus.Repository.EFRepository
 {
-    public abstract class EFBaseRepository<T, K> : BaseRepository, IRepository<T, K> where T : AggregateRoot<K>
+    public abstract class EFBaseRepository<T, K>: IRepository<T, K> where T : AggregateRoot<K>
     {
         private EFUnitOfWork unitOfWork;
         public EFBaseRepository(EFUnitOfWork unitOfWork) {
@@ -40,17 +41,17 @@ namespace MeidPlus.Repository.EFRepository
             unitOfWork.Entry(t).Reference(expression).Load();
         }
 
-        public virtual int Delete(params T[] t) {
-            unitOfWork.Set<T>().RemoveRange(t);
+        public virtual int Delete(T t ) {
+            unitOfWork.Set<T>().Remove(t);
             return unitOfWork.Commit();
         }
         public virtual T GetById(K id) => unitOfWork.Set<T>().Find(id);
-        public virtual int Insert(params T[] t) {
+        public virtual int Insert(T t) {
             unitOfWork.AddRange(t);      
            return  unitOfWork.Commit();
         }
-        public virtual int Update(T[] t) {
-            unitOfWork.Set<T>().UpdateRange(t);
+        public virtual int Update(T t) {
+            unitOfWork.Set<T>().Update(t);
             return unitOfWork.Commit();
         }
     }

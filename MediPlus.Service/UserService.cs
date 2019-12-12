@@ -18,12 +18,13 @@ namespace MediPlus.Service
 
         public int Addrole(int id,RoleDTO role) {
           var o =  GetById(id);
-          var oo =  o.Roles.Skip(1).Take(1);
-           var rr = oo.ToList();
-            repository.Load<Role>(o, t => t.Roles);
-            // o.AddRole(Map<RoleDTO, Role>(role));
-            //return  Update(o);
-            return 3;
+          //var oo =  o.Roles.Skip(1).Take(1);
+          // var rr = oo.ToList();
+          //  repository.Load<Role>(o, t => t.Roles);
+
+            o.AddRole(Map<RoleDTO, Role>(role));
+            return Update(o);
+            //return 3;
         }
     }
 }

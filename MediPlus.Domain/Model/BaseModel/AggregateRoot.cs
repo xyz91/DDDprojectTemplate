@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using MediPlus.Domain.Event;
 using MediPlus.Domain.Model.BaseModel;
 
 namespace MediPlus.Domain.Model
@@ -11,5 +12,8 @@ namespace MediPlus.Domain.Model
             this.Id = k;
         }
         public virtual K Id { get; protected set; }
+
+        
+       
     }
 }

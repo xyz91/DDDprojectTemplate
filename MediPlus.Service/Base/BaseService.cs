@@ -8,6 +8,8 @@ using MediPlus.Domain.IRepositories.BaseRepository;
 using MediPlus.Domain.Model;
 using MediPlus.DTO;
 using MediPlus.Service.Base;
+using MediPlus.Utility;
+
 namespace MediPlus.Service
 {
    public class BaseService <T,K,D>:BaseTag,IBaseService<T,K,D>  where T : AggregateRoot<K>   where D: EntityDTO<K>

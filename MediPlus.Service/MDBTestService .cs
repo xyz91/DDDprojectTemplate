@@ -24,6 +24,8 @@ namespace MediPlus.Service
        public IEnumerable<MDBTestDTO> Searcha(MDBTestDTOPage page) {
 
             repository.SearchAll();
+           // MDBTest test = new MDBTest();
+            //test.AddEvent += Test_AddEvent;
 
             Expression<Func<MDBTest, bool>> expression = a => true;
             if (page.Id != null)
@@ -56,5 +58,7 @@ namespace MediPlus.Service
             return Map<MDBTest[], MDBTestDTO[]>(mdbtest.ToArray());
             //return Search(expression, pageIndex, pageSize);
         }
+
+       
     }
 }

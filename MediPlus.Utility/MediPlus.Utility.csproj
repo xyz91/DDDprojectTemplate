@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Autofac" Version="4.9.4" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="3.0.1" />
   </ItemGroup>
 

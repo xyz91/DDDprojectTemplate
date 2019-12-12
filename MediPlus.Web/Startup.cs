@@ -54,6 +54,7 @@ namespace MediPlus.Web
         }
         public void ConfigureContainer(ContainerBuilder builder) {
             builder.ServiceInit();
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -63,7 +64,7 @@ namespace MediPlus.Web
             {
                 app.UseDeveloperExceptionPage();
             }
-
+                                             
             app.UseRouting();
 
             app.UseAuthorization();
