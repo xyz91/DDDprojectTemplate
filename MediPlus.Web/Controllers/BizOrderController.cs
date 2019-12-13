@@ -26,13 +26,13 @@ namespace MediPlus.Web.Controllers
         //    return bizOrderService.GetBizOrder(10967);
         //}
 
-        public  int Get()
+        public IEnumerable<MDBTestDTO> Get()
         {
 
                 MDBTestDTOPage page = new MDBTestDTOPage {Type = 4,PageSize = 2};
-                testService.Searcha(page).ToArray();
+              return  testService.Searcha(page).ToArray();
 
-            return 2;
+           // return 2;
 
             //MDBTestDTO dot = new MDBTestDTO {
             //    Name = "test2" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),

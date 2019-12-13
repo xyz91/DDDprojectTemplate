@@ -12,7 +12,7 @@ using System.Linq;
 using MediPlus.Utility;
 namespace MediPlus.Service
 {
-    public class MDBTestService : BaseService<MDBTest,int,MDBTestDTO>, IMDBTestService
+    public class MDBTestService : BaseUnitService<MDBTest,int,MDBTestDTO>, IMDBTestService
     {
         private new IMDBTestRepository repository;
         public MDBTestService(IMDBTestRepository repository):base(repository){

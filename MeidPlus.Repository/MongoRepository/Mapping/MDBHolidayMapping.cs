@@ -10,6 +10,7 @@ using MongoDB.Bson.Serialization.Serializers;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Linq;
+using MediPlus.Domain.Model.BaseModel;
 
 namespace MeidPlus.Repository.MongoRepository.Mapping
 {
@@ -17,20 +18,20 @@ namespace MeidPlus.Repository.MongoRepository.Mapping
     {
       
         public static void Register() {
-            BsonClassMap.RegisterClassMap<Entity>(a => {
+            BsonClassMap.RegisterClassMap<Obj>(a => {
                 a.AutoMap();
                 a.SetIgnoreExtraElements(true);
                 a.SetIgnoreExtraElementsIsInherited(true);
                 
             });
-            BsonClassMap.RegisterClassMap<AggregateRoot<string>>(a=> {
+            BsonClassMap.RegisterClassMap<Entity<string>>(a=> {
                 a.AutoMap();
                 a.MapIdProperty(p => p.Id)
                     .SetIdGenerator(StringObjectIdGenerator.Instance)
                     .SetSerializer(new StringSerializer().
                     WithRepresentation(BsonType.ObjectId));
             });
-            BsonClassMap.RegisterClassMap<AggregateRoot<int>>(a => {
+            BsonClassMap.RegisterClassMap<Entity<int>>(a => {
                 a.AutoMap();
                 a.MapIdProperty(p => p.Id);                   
             });
@@ -44,13 +45,12 @@ namespace MeidPlus.Repository.MongoRepository.Mapping
                 
             });
 
-           var ooo =  new BsonClassMap(typeof(int));
-            BsonClassMap.RegisterClassMap(ooo);
+         
             BsonClassMap.RegisterClassMap<MDBTest>();
             BsonClassMap.RegisterClassMap<ChildNode>();
             //BsonClassMap.RegisterClassMap<MMTest>();
 
-           var types = typeof(Entity).Assembly.GetTypes().Where(a=>typeof(Entity).IsAssignableFrom(a));
+           var types = typeof(Obj).Assembly.GetTypes().Where(a=>typeof(Obj).IsAssignableFrom(a));
             foreach (var item in types)
             {
                 if (!BsonClassMap.IsClassMapRegistered(item))

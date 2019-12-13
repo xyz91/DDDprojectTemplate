@@ -6,6 +6,7 @@ using System.Text;
 using MediPlus.Domain.Event;
 using MediPlus.Domain.IRepositories;
 using MediPlus.Domain.IRepositories.BaseRepository;
+using MediPlus.Domain.IRepositories.Context;
 using MediPlus.Domain.Model;
 using MediPlus.Domain.Model.BaseModel;
 using MeidPlus.Repository.Base;
@@ -16,8 +17,8 @@ namespace MeidPlus.Repository.EFRepository
     public abstract class EFBaseRepository<T, K>: IRepository<T, K>, IEFRepository<T, K> where T : AggregateRoot<K>
     {
         private EFUnitOfWork unitOfWork;
-        public EFBaseRepository(EFUnitOfWork unitOfWork) {
-            this.unitOfWork = unitOfWork;
+        public EFBaseRepository(IEFBaseContext unitOfWork) {
+            this.unitOfWork = unitOfWork as EFUnitOfWork;
         }
         public virtual IQueryable<T> Entities => unitOfWork.Set<T>();
 

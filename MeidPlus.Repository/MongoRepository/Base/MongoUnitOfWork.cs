@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using MediPlus.Domain.IRepositories;
 using MediPlus.Domain.IRepositories.BaseRepository;
+using MeidPlus.Repository.MongoRepository.Mapping;
 using Microsoft.Extensions.Configuration;
 
 namespace MeidPlus.Repository.MongoRepository.Base
@@ -17,6 +18,9 @@ namespace MeidPlus.Repository.MongoRepository.Base
 
         public int Commit() => throw new NotImplementedException();
         public void RollBack() => throw new NotImplementedException();
-        
+        static MongoUnitOfWork() {
+            MDBHolidayMapping.Register();
+        }
+
     }
 }

@@ -10,7 +10,7 @@ using MediPlus.DTO;
 
 namespace MediPlus.Service
 {
-    public class BizOrderService : BaseService<BizOrder, int,BizOrderDTO>, IBizOrderService
+    public class BizOrderService : BaseUnitService<BizOrder, int,BizOrderDTO>, IBizOrderService
     {
         public BizOrderService(IBizOrderRepository bizOrderRepository):base(bizOrderRepository) {
         }

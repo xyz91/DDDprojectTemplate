@@ -8,12 +8,13 @@ using MongoDB.Driver;
 using System.Linq;
 using MeidPlus.Repository.MongoRepository.Base;
 using MeidPlus.Repository.MongoRepository.Context;
+using MediPlus.Domain.IRepositories.Context;
 
 namespace MeidPlus.Repository.MongoRepository
 {
   public  class MDBHolidayRepository : MongoBaseRepository<MDBYearHoliday,string>, IMDBHolidayRepository
     {
-        public MDBHolidayRepository(MediplusContext unitOfWork):base(unitOfWork) {
+        public MDBHolidayRepository(IMediPlusMongoContext unitOfWork):base(unitOfWork) {
            
         }
 

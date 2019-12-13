@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace MediPlus.Service.Base
+namespace MediPlus.Service.Interface
 {
-   public  class BaseService
+    public interface IUserRoleService
     {
     }
 }

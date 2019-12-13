@@ -14,9 +14,11 @@ using Autofac;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Console;
 using Microsoft.Extensions.Options;
+using MediPlus.Domain.Model.BaseModel;
+
 namespace MeidPlus.Repository.EFRepository.Base
 {
-    public abstract class EFUnitOfWork : DbContext, IUnitOfWork
+    public abstract class EFUnitOfWork : DbContext, IUnitOfWork,IUnionOfWork
     {
         protected abstract string Constr { get; }
         protected IConfiguration Configuration { get; }
@@ -40,7 +42,7 @@ namespace MeidPlus.Repository.EFRepository.Base
 
         public int Commit()
         {
-            var doamins = this.ChangeTracker.Entries<Entity>().Where(a => a.Entity.EventDatas != null && a.Entity.EventDatas.Any());
+            var doamins = this.ChangeTracker.Entries<Obj>().Where(a => a.Entity.EventDatas != null && a.Entity.EventDatas.Any());
             var events = doamins.SelectMany(a => a.Entity.EventDatas).ToList();            
             //DoEvent(events, EventType.BeforeSave);
             var result = this.SaveChanges();
@@ -64,5 +66,9 @@ namespace MeidPlus.Repository.EFRepository.Base
             }
         }
         public void RollBack() { }
+
+        public void RegisAdd<T, K>(T t) where T : AggregateRoot<K> => this.Set<T>().Add(t);
+        public void RegisUpdate<T, K>(T t) where T : AggregateRoot<K> =>this.Set<T>().Update(t); 
+        public void RegisDelete<T, K>(T t) where T : AggregateRoot<K> => this.Set<T>().Remove(t); 
     }
 }

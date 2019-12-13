@@ -4,8 +4,8 @@ using System.Text;
 
 namespace MediPlus.Domain.Service
 {
-    public interface IUserRoleService: IDomainService
+    public interface IUserRoleDomains: IDomainService
     {
-        void Test(int i);
+        void Test();
     }
 }

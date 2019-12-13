@@ -6,22 +6,14 @@ using MediPlus.Domain.Model.BaseModel;
 
 namespace MediPlus.Domain.Model
 {
-   public abstract class Entity: IEntity
+   public abstract class Entity<K>:Obj,IEntity
     {
-        private List<IEventData> _events;
-        public IReadOnlyCollection<IEventData> EventDatas => _events?.AsReadOnly();
-        public void AddEvent(IEventData eventData)
+        protected Entity(K k)
         {
-            _events = _events ?? new List<IEventData>();
-            _events.Add(eventData);
+            this.Id = k;
         }
-        public void ClearEvents()
-        {
-            _events?.Clear();
-        }
-        public void RemoveEvent(IEventData eventData)
-        {
-            _events?.Remove(eventData);
-        }
+        public virtual K Id { get; protected set; }
+
+        
     }
 }

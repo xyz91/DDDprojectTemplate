@@ -12,14 +12,15 @@ using MeidPlus.Repository.Base;
 using MeidPlus.Repository.MongoRepository.Base;
 using MediPlus.Domain.Model;
 using System.Linq.Expressions;
+using MediPlus.Domain.IRepositories.Context;
 
 namespace MeidPlus.Repository.MongoRepository
 {
     public abstract class MongoBaseRepository<T,K> : IRepository<T, K>, IMongoRepository<T, K> where T : AggregateRoot<K> 
     {
         private MongoUnitOfWork unitOfWork;
-        protected MongoBaseRepository(MongoUnitOfWork unitOfWork) {
-            this.unitOfWork = unitOfWork;
+        protected MongoBaseRepository(IMongoBaseContext unitOfWork) {
+            this.unitOfWork = unitOfWork as MongoUnitOfWork;
 
         }
         public IQueryable<T> Entities => Collection.AsQueryable();

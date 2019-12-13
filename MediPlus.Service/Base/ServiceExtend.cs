@@ -19,6 +19,8 @@ using System.ComponentModel.Design;
 using MediPlus.Utility;
 using MediPlus.Domain.Event;
 using MediPlus.Domain.Service;
+using MediPlus.Domain.Model.BaseModel;
+using MediPlus.Domain.IRepositories.Context;
 
 namespace MediPlus.Service.Base
 {
@@ -34,16 +36,16 @@ namespace MediPlus.Service.Base
             string urlpath = Uri.UnescapeDataString(uri.Path);
             var path = Path.GetDirectoryName(urlpath);
 
-            var domaintypes = typeof(Entity).Assembly.GetTypes().ToList();
+            var domaintypes = typeof(Obj).Assembly.GetTypes().ToList();
             var domaininterface = domaintypes.Where(a => a.IsInterface).ToList();
 
             
             var repository = Assembly.LoadFrom($"{path}\\MeidPlus.Repository.dll");
             var repositorytypes = repository.GetTypes().ToList();
 
-            var servertypes = typeof(BaseTag).Assembly.GetTypes();
+            var servertypes = typeof(BaseService).Assembly.GetTypes();
             
-            foreach (var item in servertypes.Where(a => !a.IsAbstract && a.BaseType.IsGenericType && a.BaseType.GetGenericTypeDefinition() == typeof(BaseService<,,>)))
+            foreach (var item in servertypes.Where(a => !a.IsAbstract && a.BaseType.IsGenericType && a.BaseType.GetGenericTypeDefinition() == typeof(BaseUnitService<,,>)))
             {
                 var inter = servertypes.SingleOrDefault(a => a.IsInterface && a.IsAssignableFrom(item));
                 if (inter != null)
@@ -53,8 +55,15 @@ namespace MediPlus.Service.Base
             }
            
             foreach (var item in repositorytypes.Where(a => !a.IsAbstract && typeof(IUnitOfWork).IsAssignableFrom(a)))
-            {               
-                    builder.RegisterType(item);
+            {
+                var oowf = item.GetInterfaces();
+                var oooooooo = domaininterface.Where(a =>a.Name != typeof(IMediPlusBaseContext).Name && typeof(IMediPlusBaseContext).IsAssignableFrom(a) && a.IsAssignableFrom(item));
+                var inter = domaininterface.SingleOrDefault(a => a.Name != typeof(IMediPlusBaseContext).Name && typeof(IMediPlusBaseContext).IsAssignableFrom(a) && a.IsAssignableFrom(item));
+                if (inter != null)
+                {
+                    builder.RegisterType(item).As(inter).InstancePerLifetimeScope();
+                }
+                   
             }
             foreach (var item in repositorytypes.Where(a=>!a.IsAbstract &&(a.BaseType?.IsGenericType??false) && a.BaseType.GetInterfaces().Any(b=>b.IsGenericType && b.GetGenericTypeDefinition() == typeof(IRepository<,>))))
             {

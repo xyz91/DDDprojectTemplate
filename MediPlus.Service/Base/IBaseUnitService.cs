@@ -6,7 +6,7 @@ using MediPlus.DTO;
 
 namespace MediPlus.Service
 {
-   public interface IBaseService<T, K, D> where T : AggregateRoot<K> where D : EntityDTO<K>
+   public interface IBaseUnitService<T, K, D> where T : AggregateRoot<K> where D : EntityDTO<K>
     {
         public M Map<S, M>(S s);
        public D Map(T obj);

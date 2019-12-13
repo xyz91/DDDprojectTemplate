@@ -3,25 +3,25 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29509.3
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediPlus.API", "MediPlus.Web\MediPlus.API.csproj", "{D892E3A2-2B4D-43E0-A2B9-EEDBC8163D0C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MediPlus.API", "MediPlus.Web\MediPlus.API.csproj", "{D892E3A2-2B4D-43E0-A2B9-EEDBC8163D0C}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1.MediPlus.Web", "1.MediPlus.Web", "{EC9AF119-2568-459B-9F7C-25E35FCF7FDD}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1.MediPlus.UI", "1.MediPlus.UI", "{EC9AF119-2568-459B-9F7C-25E35FCF7FDD}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2.MediPlus.Application", "2.MediPlus.Application", "{5C7125B4-FEE4-4376-944A-F0F30D403B7E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediPlus.Service", "MediPlus.Service\MediPlus.Service.csproj", "{727EBA92-275C-46F1-A3C2-916E0C7A2AAA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MediPlus.Service", "MediPlus.Service\MediPlus.Service.csproj", "{727EBA92-275C-46F1-A3C2-916E0C7A2AAA}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3.MediPlus.Domain", "3.MediPlus.Domain", "{438742E6-CB62-4E13-AFDC-E5A9086F8834}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediPlus.Domain", "MediPlus.Domain\MediPlus.Domain.csproj", "{ABF891E5-E77B-4A8C-8FDE-DC220AF879CC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MediPlus.Domain", "MediPlus.Domain\MediPlus.Domain.csproj", "{ABF891E5-E77B-4A8C-8FDE-DC220AF879CC}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4.MediPlus.Infrastructure", "4.MediPlus.Infrastructure", "{24BF53C0-2276-4458-92FB-0782C003FB17}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MeidPlus.Repository", "MeidPlus.Repository\MeidPlus.Repository.csproj", "{FEC1961E-3FC5-4721-AE28-A7CDC0783429}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MeidPlus.Repository", "MeidPlus.Repository\MeidPlus.Repository.csproj", "{FEC1961E-3FC5-4721-AE28-A7CDC0783429}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediPlus.Utility", "MediPlus.Utility\MediPlus.Utility.csproj", "{0143C8C9-2C9C-44DA-B1F2-D19818AAC2D5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MediPlus.Utility", "MediPlus.Utility\MediPlus.Utility.csproj", "{0143C8C9-2C9C-44DA-B1F2-D19818AAC2D5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediPlus.DTO", "MediPlus.DTO\MediPlus.DTO.csproj", "{D36BF532-0491-4BA5-999E-0270F7EFD3A2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MediPlus.DTO", "MediPlus.DTO\MediPlus.DTO.csproj", "{D36BF532-0491-4BA5-999E-0270F7EFD3A2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

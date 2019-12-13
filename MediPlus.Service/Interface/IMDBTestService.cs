@@ -7,7 +7,7 @@ using MediPlus.DTO;
 
 namespace MediPlus.Service.Interface
 {
-   public interface IMDBTestService  : IBaseService<MDBTest, int, MDBTestDTO>
+   public interface IMDBTestService  : IBaseUnitService<MDBTest, int, MDBTestDTO>
     {
         IEnumerable<MDBTestDTO> Searcha(MDBTestDTOPage page);
     }

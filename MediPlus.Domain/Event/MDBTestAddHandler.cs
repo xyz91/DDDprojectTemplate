@@ -15,7 +15,7 @@ namespace MediPlus.Domain.Event
            var test =  userRepository.GetById(2);
             Console.WriteLine(test.Id + test.Name);
             Console.WriteLine(eventData.User.Name+"&&&&&&&"+eventData.EventTime);
-            test.ChangeName("事件名22");
+            test.ChangeName("oweitew");
            userRepository.Update(test);
         }
     }

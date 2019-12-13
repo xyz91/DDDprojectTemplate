@@ -13,7 +13,7 @@ namespace MeidPlus.Repository.EFRepository.Mapping
             builder.ToTable("usertest");
             builder.HasKey(a => a.Id);
             builder.Property(a => a.Id).HasColumnName("SID");
-            builder.Property(a => a.Name).HasColumnName("SName");
+            builder.Property(a => a.Name).HasColumnName("SName").HasMaxLength(10);
             builder.HasMany<Role>(a => a.Roles).WithOne(a => a.User).HasForeignKey(a => a.UserId);
             //builder.HasQueryFilter(); //可使用set<User>().IgnoreQueryFilters() 方法来忽略过滤
         }

@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace MediPlus.Service.Base
+namespace MediPlus.Domain.Model.BaseModel
 {
-   public  class BaseService
+   public class ObjValue :Obj
     {
     }
 }

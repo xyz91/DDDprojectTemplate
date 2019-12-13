@@ -10,7 +10,7 @@ using MediPlus.Service.Interface;
 using System.Linq;
 namespace MediPlus.Service
 {
-   public class UserService: BaseService<User,int,UserDTO>,IUserService
+   public class UserService: BaseUnitService<User,int,UserDTO>,IUserService
     {
         public UserService(IUserRepository userRepository):base(userRepository) {
             

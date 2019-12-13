@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using MediPlus.Domain.IRepositories;
+using MediPlus.Domain.IRepositories.Context;
 using MediPlus.Domain.Model;
 using MeidPlus.Repository.EFRepository;
 using MeidPlus.Repository.EFRepository.Base;
@@ -12,7 +13,7 @@ namespace MeidPlus.Repository.EFRepository
    public class UserRepository : EFBaseRepository<User, int>, IUserRepository
     {
         
-        public UserRepository(MediPlusContext unitOfWork):base(unitOfWork) {
+        public UserRepository(IMediPlusContext unitOfWork):base(unitOfWork) {
                                                 
         }
     }

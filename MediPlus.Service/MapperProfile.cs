@@ -16,7 +16,7 @@ namespace MediPlus.Service
             //CreateMap<MDBYearHoliday, HolidayDTO>().ReverseMap();
             //CreateMap<MDBTest, MDBTestDTO>().ReverseMap();
 
-            var types = typeof(MapperProfile).Assembly.GetTypes().Where(a => a.BaseType != null && a.BaseType.IsGenericType && a.BaseType.GetGenericTypeDefinition() == typeof(BaseService<,,>)).ToList();
+            var types = typeof(MapperProfile).Assembly.GetTypes().Where(a => a.BaseType != null && a.BaseType.IsGenericType && a.BaseType.GetGenericTypeDefinition() == typeof(BaseUnitService<,,>)).ToList();
             foreach (var item in types)
             {
                 var arg = item.BaseType.GetGenericArguments();
