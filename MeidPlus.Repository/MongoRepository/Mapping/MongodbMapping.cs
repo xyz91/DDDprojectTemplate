@@ -14,7 +14,7 @@ using MediPlus.Domain.Model.BaseModel;
 
 namespace MeidPlus.Repository.MongoRepository.Mapping
 {
-   public class MDBHolidayMapping
+   public class MongodbMapping
     {
       
         public static void Register() {
@@ -35,20 +35,15 @@ namespace MeidPlus.Repository.MongoRepository.Mapping
                 a.AutoMap();
                 a.MapIdProperty(p => p.Id);                   
             });
-            BsonClassMap.RegisterClassMap<MDBYearHoliday>(a => {
-                a.AutoMap();              
-                    //a.MapIdProperty(p => p.Id)
-                    //    .SetIdGenerator(StringObjectIdGenerator.Instance)
-                    //    .SetSerializer(new StringSerializer().
-                    //    WithRepresentation(BsonType.ObjectId));
-               // a.SetIgnoreExtraElements(true);
-                
-            });
 
-         
-            BsonClassMap.RegisterClassMap<MDBTest>();
-            BsonClassMap.RegisterClassMap<ChildNode>();
-            //BsonClassMap.RegisterClassMap<MMTest>();
+            BsonClassMap.RegisterClassMap<MediTest>(a=> {
+                a.AutoMap();
+            });
+            BsonClassMap.RegisterClassMap<MediTestNode>(a=> {
+                a.AutoMap();
+                a.UnmapProperty(a=>a.MediTest);
+                a.UnmapProperty(a=>a.MediTestId);
+            });
 
            var types = typeof(Obj).Assembly.GetTypes().Where(a=>typeof(Obj).IsAssignableFrom(a));
             foreach (var item in types)

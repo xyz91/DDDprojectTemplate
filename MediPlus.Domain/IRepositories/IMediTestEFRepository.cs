@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using System.Text;
 using MediPlus.Domain.IRepositories.BaseRepository;
 using MediPlus.Domain.Model;
+
 namespace MediPlus.Domain.IRepositories
 {
-   public interface IBizOrderRepository : IRepository<BizOrder, int> , IEFRepository<BizOrder, int>
+    public interface IMediTestEFRepository  : IRepository<MediTest, string>, IEFRepository<MediTest, string>
     {
     }
 }

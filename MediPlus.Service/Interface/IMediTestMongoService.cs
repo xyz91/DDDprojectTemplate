@@ -6,7 +6,7 @@ using MediPlus.DTO;
 
 namespace MediPlus.Service.Interface
 {
-   public interface IBizOrderService : IBaseUnitService<BizOrder, int, BizOrderDTO>
+   public interface IMediTestMongoService : IBaseUnitService<MediTest, string, MediTestDTO>
     {
     }
 }

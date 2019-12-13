@@ -18,7 +18,8 @@ namespace MeidPlus.Repository.EFRepository.Context
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            modelBuilder.ApplyConfiguration(new BizOrderMapping());
+            modelBuilder.ApplyConfiguration(new MediTestMapping());
+            modelBuilder.ApplyConfiguration(new MediTestNodeMapping());
         }
     }
 }

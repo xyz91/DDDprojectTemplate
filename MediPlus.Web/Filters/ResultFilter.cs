@@ -13,8 +13,16 @@ namespace MediPlus.API.Filters
         
         }
         public void OnResultExecuting(ResultExecutingContext context) {
-            var  obj = new ObjectResult(new { Success = true, Msg = "", Data = (context.Result as ObjectResult).Value });
-            context.Result = obj; 
+            if (context.Result is ObjectResult) {
+                ObjectResult obj = new ObjectResult(new { Success = true, Msg = "" });
+                var objresult = context.Result as ObjectResult;
+                if (!(objresult.Value is bool))
+                {
+                    obj = new ObjectResult(new { Success = true, Msg = "", Data = objresult.Value });
+                }
+                context.Result = obj;
+            }          
+            
         }
     }
 }

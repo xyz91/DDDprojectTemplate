@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace MediPlus.Service.Interface
+namespace MediPlus.Domain.Event
 {
-    public interface IUserRoleService
+    public class MediTestAddNodeEventData : EventData
     {
     }
 }

@@ -10,10 +10,10 @@ using MeidPlus.Repository.EFRepository.Context;
 
 namespace MeidPlus.Repository.EFRepository
 {
-   public class UserRepository : EFBaseRepository<User, int>, IUserRepository
+   public class MediTestEF2Repository : EFBaseRepository<MediTest, string>, IMediTestEF2Repository
     {
         
-        public UserRepository(IMediPlusContext unitOfWork):base(unitOfWork) {
+        public MediTestEF2Repository(IMediPlus2Context unitOfWork):base(unitOfWork) {
                                                 
         }
     }

@@ -10,9 +10,9 @@ using MeidPlus.Repository.EFRepository.Context;
 
 namespace MeidPlus.Repository.EFRepository
 {
-  public  class BizOrderRepository: EFBaseRepository<BizOrder, int>, IBizOrderRepository
+  public  class MediTestEFRepository: EFBaseRepository<MediTest, string>, IMediTestEFRepository
     {
-        public BizOrderRepository(IMediPlus2Context context):base(context) { 
+        public MediTestEFRepository(IMediPlusContext context):base(context) { 
         
         }
     }

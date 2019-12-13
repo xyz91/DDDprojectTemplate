@@ -35,8 +35,8 @@ namespace MeidPlus.Repository.MongoRepository
         public PageModel<T> Search<P>(int pageIndex, int pageSize, Expression<Func<T, bool>> where = null, Expression<Func<T, P>> orderby = null, bool desc = true)
         {
             PageModel<T> page = new PageModel<T>() { PageIndex = pageIndex, PageSize = pageSize };
-            page.DataCount = Entities.Count(where);
             where = where ?? (t => true);
+            page.DataCount = Entities.Count(where);           
             var query = Entities.Where(where);
             if (orderby != null)
             {

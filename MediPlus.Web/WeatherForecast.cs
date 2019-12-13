@@ -1,6 +1,6 @@
 using System;
 
-namespace MediPlus.Web
+namespace MediPlus.API
 {
     public class WeatherForecast
     {

@@ -19,7 +19,7 @@ namespace MeidPlus.Repository.MongoRepository.Base
         public int Commit() => throw new NotImplementedException();
         public void RollBack() => throw new NotImplementedException();
         static MongoUnitOfWork() {
-            MDBHolidayMapping.Register();
+            MongodbMapping.Register();
         }
 
     }

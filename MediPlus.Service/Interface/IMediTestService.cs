@@ -6,7 +6,7 @@ using MediPlus.DTO;
 
 namespace MediPlus.Service.Interface
 {
-   public interface IHolidayService: IBaseUnitService<MDBYearHoliday, string, HolidayDTO>
+   public interface IMediTestService : IBaseUnitService<MediTest, string, MediTestDTO>
     {
     }
 }

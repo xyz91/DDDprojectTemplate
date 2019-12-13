@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace MediPlus.Domain.Model.BaseModel
+namespace MediPlus.Domain.Model
 {
    public class PageModel<T>
     {

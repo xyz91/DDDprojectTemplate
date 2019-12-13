@@ -5,11 +5,11 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
-namespace MediPlus.Web.Controllers
+namespace MediPlus.API.Controllers
 {
-    [ApiController]
-    [Route("[controller]")]
-    public class WeatherForecastController : ControllerBase
+    //[ApiController]
+    //[Route("[controller]")]
+    public class WeatherForecastController : Controller
     {
         private static readonly string[] Summaries = new[]
         {

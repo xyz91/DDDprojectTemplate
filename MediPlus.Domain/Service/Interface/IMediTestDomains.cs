@@ -4,7 +4,7 @@ using System.Text;
 
 namespace MediPlus.Domain.Service
 {
-    public interface IUserRoleDomains: IDomainService
+    public interface IMediTestDomains: IDomainService
     {
         void Test();
     }

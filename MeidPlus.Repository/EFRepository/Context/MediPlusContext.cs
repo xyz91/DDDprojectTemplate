@@ -17,8 +17,8 @@ namespace MeidPlus.Repository.EFRepository.Context
         protected override string Constr => "con";
         protected override void OnModelCreating(ModelBuilder modelBuilder) {
             base.OnModelCreating(modelBuilder);
-            modelBuilder.ApplyConfiguration(new UserMapping());
-            modelBuilder.ApplyConfiguration(new RoleMapping());
+            modelBuilder.ApplyConfiguration(new MediTestMapping());
+            modelBuilder.ApplyConfiguration(new MediTestNodeMapping());
         }
     }
 }

@@ -28,6 +28,8 @@ namespace MediPlus.Service
         public int Update(T t);
 
         public int Update(D d);
-       
+        public PageDTO<D> Search(int pageIndex, int pageSize);
+
+
     }
 }

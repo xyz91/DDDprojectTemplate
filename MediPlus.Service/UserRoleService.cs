@@ -6,7 +6,7 @@ using MediPlus.Service.Interface;
 
 namespace MediPlus.Service
 {
-    public class UserRoleService : BaseService, IUserRoleService
-    {
-    }
+    //public class UserRoleService : BaseService, IUserRoleService
+    //{
+    //}
 }

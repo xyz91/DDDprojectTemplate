@@ -20,7 +20,7 @@ using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using System.ComponentModel.Design;
 
-namespace MediPlus.Web
+namespace MediPlus.API
 {
     public class Startup
     {
@@ -38,11 +38,13 @@ namespace MediPlus.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            
-            services.AddControllers(option=> {
+
+            services.AddControllers(option =>
+            {
                 option.Filters.Add<ExceptionFilter>();
                 option.Filters.Add<ResultFilter>();
-            }).AddNewtonsoftJson(option=> {
+            }).AddNewtonsoftJson(option =>
+            {
                 option.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
                 option.SerializerSettings.ContractResolver = new DefaultContractResolver();
                 option.SerializerSettings.DateFormatString = "yyyy-MM-dd HH:mm:ss";
@@ -50,11 +52,12 @@ namespace MediPlus.Web
 
             //ContainerBuilder builder = new ContainerBuilder();
             //builder.Populate(services);
-           services.ServiceInit();
+            services.ServiceInit();
         }
-        public void ConfigureContainer(ContainerBuilder builder) {
+        public void ConfigureContainer(ContainerBuilder builder)
+        {
             builder.ServiceInit();
-            
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -64,13 +67,21 @@ namespace MediPlus.Web
             {
                 app.UseDeveloperExceptionPage();
             }
-                                             
+
             app.UseRouting();
 
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapControllerRoute(
+                    "default",
+                    "{controller=Home}/{action=Index}/{id?}"
+                    );
+                endpoints.MapAreaControllerRoute(
+                     "areas", 
+                     "areas",
+                     "{area:exists}/{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapControllers();
             });
             app.UseStaticProvider();
