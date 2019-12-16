@@ -15,6 +15,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Console;
 using Microsoft.Extensions.Options;
 using MediPlus.Domain.Model.BaseModel;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 
 namespace MeidPlus.Repository.EFRepository.Base
 {
@@ -37,6 +38,8 @@ namespace MeidPlus.Repository.EFRepository.Base
             base.OnConfiguring(optionsBuilder);
             optionsBuilder.EnableServiceProviderCaching();
             optionsBuilder.UseLoggerFactory(Logger);
+            optionsBuilder.EnableSensitiveDataLogging(true);
+            optionsBuilder.ConfigureWarnings(warn => warn.Log(CoreEventId.DetachedLazyLoadingWarning));
         }
         public bool IsCommitted { get; set; }
 

@@ -21,6 +21,7 @@ using MediPlus.Domain.Event;
 using MediPlus.Domain.Service;
 using MediPlus.Domain.Model.BaseModel;
 using MediPlus.Domain.IRepositories.Context;
+using Castle.DynamicProxy;
 
 namespace MediPlus.Service.Base
 {
@@ -50,7 +51,7 @@ namespace MediPlus.Service.Base
                 var inter = servertypes.SingleOrDefault(a => a.IsInterface && a.IsAssignableFrom(item));
                 if (inter != null)
                 {
-                    builder.RegisterType(item).As(inter).EnableInterfaceInterceptors();
+                    builder.RegisterType(item).As(inter).InterceptedBy(typeof(Log)).EnableInterfaceInterceptors();
                 }
             }
            
@@ -87,7 +88,11 @@ namespace MediPlus.Service.Base
             {
                 var eventdata = item.BaseType.GetGenericArguments()[0];
                  builder.RegisterType(item).Named<IEventHandler>(eventdata.Name);
-            }        
+            }
+
+
+            builder.RegisterType<Log>();
+
         }
         
 
@@ -96,6 +101,20 @@ namespace MediPlus.Service.Base
             ServiceLocator.Container = app.ApplicationServices.GetAutofacRoot();
         }
     }
+    /// <summary>
+    ///          [Intercept(typeof(Log))]
+    ///          
+    /// </summary>
+    public class Log : Castle.DynamicProxy.IInterceptor
+    {
+        public void Intercept(IInvocation invocation) {
+            Console.WriteLine(invocation.Method.Name +" befroe");
+            invocation.Proceed();
+            Console.WriteLine(invocation.Method.Name + " after");
+        }
+    }
 
-    
+
+
+
 }
