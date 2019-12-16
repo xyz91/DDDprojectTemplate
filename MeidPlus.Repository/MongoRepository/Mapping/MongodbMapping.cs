@@ -41,8 +41,8 @@ namespace MeidPlus.Repository.MongoRepository.Mapping
             });
             BsonClassMap.RegisterClassMap<MediTestNode>(a=> {
                 a.AutoMap();
-                a.UnmapProperty(a=>a.MediTest);
-                a.UnmapProperty(a=>a.MediTestId);
+                a.UnmapProperty(b=>b.MediTest);
+                a.UnmapProperty(b=>b.MediTestId);
             });
 
            var types = typeof(Obj).Assembly.GetTypes().Where(a=>typeof(Obj).IsAssignableFrom(a));

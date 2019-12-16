@@ -18,6 +18,10 @@ namespace MediPlus.API.Controllers
             this.mediTest2Service = mediTest2Service;
             this.mediTestMongoService = mediTestMongoService;
         }
+        public string Index()
+        {
+            return "ok";
+        }
         [HttpGet]
         public PageDTO<MediTestDTO> Searchef() {
            return  mediTestService.Search(1, 10);

@@ -24,7 +24,7 @@ namespace MediPlus.API
 {
     public class Startup
     {
-        public Startup(IWebHostEnvironment env)
+        public Startup(IHostEnvironment env)
         {
             Configuration = new ConfigurationBuilder().SetBasePath(env.ContentRootPath)
             .AddJsonFile("appsettings.json", false, true)
@@ -39,19 +39,19 @@ namespace MediPlus.API
         public void ConfigureServices(IServiceCollection services)
         {
 
-            services.AddControllers(option =>
+            services
+                .AddControllers(option =>
             {
                 option.Filters.Add<ExceptionFilter>();
                 option.Filters.Add<ResultFilter>();
-            }).AddNewtonsoftJson(option =>
+            })
+                .AddControllersAsServices()
+                .AddNewtonsoftJson(option =>
             {
                 option.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
                 option.SerializerSettings.ContractResolver = new DefaultContractResolver();
                 option.SerializerSettings.DateFormatString = "yyyy-MM-dd HH:mm:ss";
             });
-
-            //ContainerBuilder builder = new ContainerBuilder();
-            //builder.Populate(services);
             services.ServiceInit();
         }
         public void ConfigureContainer(ContainerBuilder builder)

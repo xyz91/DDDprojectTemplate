@@ -11,6 +11,7 @@ using MediPlus.Domain.Model;
 using MediPlus.Domain.Model.BaseModel;
 using MeidPlus.Repository.Base;
 using MeidPlus.Repository.EFRepository.Base;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 namespace MeidPlus.Repository.EFRepository
 {
@@ -21,7 +22,6 @@ namespace MeidPlus.Repository.EFRepository
             this.unitOfWork = unitOfWork as EFUnitOfWork;
         }
         public virtual IQueryable<T> Entities => unitOfWork.Set<T>();
-
         public virtual int Delete(K id) {
             var t = GetById(id);
             if (t == null)
@@ -35,7 +35,7 @@ namespace MeidPlus.Repository.EFRepository
             PageModel<T> page = new PageModel<T>() { PageIndex = pageIndex, PageSize = pageSize};
             where = where ?? (t => true);
             page.DataCount =  Entities.Count(where);              
-            var query = Entities.Where(where);
+            var query = Entities.AsNoTracking().Where(where);
             if (orderby != null)
             {
                 query = desc ? query.OrderByDescending(orderby) : query.OrderBy(orderby);
@@ -60,7 +60,7 @@ namespace MeidPlus.Repository.EFRepository
         }
         public virtual T GetById(K id) => unitOfWork.Set<T>().Find(id);
         public virtual int Insert(T t) {
-            unitOfWork.AddRange(t);      
+            unitOfWork.Set<T>().AddRange(t);      
            return  unitOfWork.Commit();
         }
         public virtual int Update(T t) {
