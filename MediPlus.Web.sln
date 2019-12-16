@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29509.3
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MediPlus.API", "MediPlus.Web\MediPlus.API.csproj", "{D892E3A2-2B4D-43E0-A2B9-EEDBC8163D0C}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1.MediPlus.UI", "1.MediPlus.UI", "{EC9AF119-2568-459B-9F7C-25E35FCF7FDD}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2.MediPlus.Application", "2.MediPlus.Application", "{5C7125B4-FEE4-4376-944A-F0F30D403B7E}"
@@ -23,16 +21,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MediPlus.Utility", "MediPlu
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MediPlus.DTO", "MediPlus.DTO\MediPlus.DTO.csproj", "{D36BF532-0491-4BA5-999E-0270F7EFD3A2}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MediPlus.API", "MediPlus.API\MediPlus.API.csproj", "{66C02DB8-04FA-480B-993E-5F2D8450CE9E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{D892E3A2-2B4D-43E0-A2B9-EEDBC8163D0C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D892E3A2-2B4D-43E0-A2B9-EEDBC8163D0C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D892E3A2-2B4D-43E0-A2B9-EEDBC8163D0C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D892E3A2-2B4D-43E0-A2B9-EEDBC8163D0C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{727EBA92-275C-46F1-A3C2-916E0C7A2AAA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{727EBA92-275C-46F1-A3C2-916E0C7A2AAA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{727EBA92-275C-46F1-A3C2-916E0C7A2AAA}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -53,17 +49,21 @@ Global
 		{D36BF532-0491-4BA5-999E-0270F7EFD3A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D36BF532-0491-4BA5-999E-0270F7EFD3A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D36BF532-0491-4BA5-999E-0270F7EFD3A2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{66C02DB8-04FA-480B-993E-5F2D8450CE9E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{66C02DB8-04FA-480B-993E-5F2D8450CE9E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{66C02DB8-04FA-480B-993E-5F2D8450CE9E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{66C02DB8-04FA-480B-993E-5F2D8450CE9E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{D892E3A2-2B4D-43E0-A2B9-EEDBC8163D0C} = {EC9AF119-2568-459B-9F7C-25E35FCF7FDD}
 		{727EBA92-275C-46F1-A3C2-916E0C7A2AAA} = {5C7125B4-FEE4-4376-944A-F0F30D403B7E}
 		{ABF891E5-E77B-4A8C-8FDE-DC220AF879CC} = {438742E6-CB62-4E13-AFDC-E5A9086F8834}
 		{FEC1961E-3FC5-4721-AE28-A7CDC0783429} = {24BF53C0-2276-4458-92FB-0782C003FB17}
 		{0143C8C9-2C9C-44DA-B1F2-D19818AAC2D5} = {24BF53C0-2276-4458-92FB-0782C003FB17}
 		{D36BF532-0491-4BA5-999E-0270F7EFD3A2} = {24BF53C0-2276-4458-92FB-0782C003FB17}
+		{66C02DB8-04FA-480B-993E-5F2D8450CE9E} = {EC9AF119-2568-459B-9F7C-25E35FCF7FDD}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E9506BE7-9B88-4E2D-B464-B5A54FD185CC}
