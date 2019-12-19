@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using MediPlus.Domain.Model;
 using MediPlus.DTO;
 
@@ -8,28 +9,36 @@ namespace MediPlus.Service
 {
    public interface IBaseUnitService<T, K, D> where T : AggregateRoot<K> where D : EntityDTO<K>
     {
-        public M Map<S, M>(S s);
-       public D Map(T obj);
+         M Map<S, M>(S s);
+        D Map(T obj);
        
-      public  T Map(D obj);
+        T Map(D obj);
 
-        public T GetById(K id);
+         T GetById(K id);
+        Task<T> GetByIdAsnyc(K id);
 
-        public D GetDTOById(K id);
+         D GetDTOById(K id);
+        Task<D> GetDTOByIdAsnyc(K id);
 
-        public int Insert(T t);
+         int Insert(T t);
+        Task<int> InsertAsync(T t);
 
-        public int Insert(D d);
+         int Insert(D d);
+        Task<int> InsertAsnyc(D d);
 
-        public int Delete(K id);
+         int Delete(K id);
+        Task<int> DeleteAsync(K id);
 
-        public int Delete(T t);
+         int Delete(T t);
+        Task<int> DeleteAsync(T t);
 
-        public int Update(T t);
+         int Update(T t);
+        Task<int> UpdateAsync(T t);
 
-        public int Update(D d);
-        public PageDTO<D> Search(int pageIndex, int pageSize);
-
+         int Update(D d);
+        Task<int> UpdateAsync(D d);
+         PageDTO<D> Search(int pageIndex, int pageSize);
+        Task<PageDTO<D>> SearchAsync(int pageIndex, int pageSize);
 
     }
 }

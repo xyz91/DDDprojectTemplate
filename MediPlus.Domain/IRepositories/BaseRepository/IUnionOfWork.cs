@@ -7,8 +7,8 @@ namespace MediPlus.Domain.IRepositories.BaseRepository
 {
    public interface IUnionOfWork
     {
-        public void RegisAdd<T, K>(T t) where T : AggregateRoot<K>;
-        public void RegisUpdate<T, K>(T t) where T : AggregateRoot<K>;
-        public void RegisDelete<T, K>(T t) where T : AggregateRoot<K>;
+         void RegisAdd<T, K>(T t) where T : AggregateRoot<K>;
+         void RegisUpdate<T, K>(T t) where T : AggregateRoot<K>;
+         void RegisDelete<T, K>(T t) where T : AggregateRoot<K>;
     }
 }

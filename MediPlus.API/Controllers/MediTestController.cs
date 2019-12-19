@@ -18,13 +18,35 @@ namespace MediPlus.API.Controllers
             this.mediTest2Service = mediTest2Service;
             this.mediTestMongoService = mediTestMongoService;
         }
-        public string Index()
-        {
+        [PermissionCheck]
+        public string Index() {
             return "ok";
         }
         [HttpGet]
         public PageDTO<MediTestDTO> Searchef() {
            return  mediTestService.Search(1, 10);
+        }
+        [HttpGet]
+        public Task<PageDTO<MediTestDTO>> SearchefAsync() {
+            return mediTestService.SearchAsync(1, 10);
+        }
+        [HttpPost]
+        public int AddNode([FromBody]MediTestDTO medi) {
+            return mediTestService.AddNode(medi.Id, medi.MediTestNodes?.ToArray());
+        }
+        [HttpPost]
+        public Task<int> AddNodeAsync([FromBody]MediTestDTO medi) {
+            return mediTestService.AddNodeAsync(medi.Id, medi.MediTestNodes?.ToArray());
+        }
+        [HttpGet]
+        public PageDTO<MediTestDTO> Searchef2()
+        {
+            return mediTest2Service.Search(1, 10);
+        }
+        [HttpGet]
+        public PageDTO<MediTestDTO> Searchmongo()
+        {
+            return mediTestMongoService.Search(1, 10);
         }
         [HttpGet]
         public MediTestDTO Getef(string id) {

@@ -21,14 +21,14 @@ using MediPlus.Domain.Event;
 using MediPlus.Domain.Service;
 using MediPlus.Domain.Model.BaseModel;
 using MediPlus.Domain.IRepositories.Context;
-using Castle.DynamicProxy;
 
 namespace MediPlus.Service.Base
 {
    public static class MediPlusServiceCollectionExtend
     {
         public static void ServiceInit(this IServiceCollection services) {
-            services.AddAutoMapper(typeof(MapperProfile));           
+            services.AddAutoMapper(typeof(MapperProfile));   
+          
         }
         public static void ServiceInit(this ContainerBuilder builder)
         {
@@ -45,8 +45,9 @@ namespace MediPlus.Service.Base
             var repositorytypes = repository.GetTypes().ToList();
 
             var servertypes = typeof(BaseService).Assembly.GetTypes();
-            
-            foreach (var item in servertypes.Where(a => !a.IsAbstract && a.BaseType.IsGenericType && a.BaseType.GetGenericTypeDefinition() == typeof(BaseUnitService<,,>)))
+
+            //foreach (var item in servertypes.Where(a => !a.IsAbstract && a.BaseType.IsGenericType && a.BaseType.GetGenericTypeDefinition() == typeof(BaseUnitService<,,>)))
+            foreach(var item in servertypes.Where(a=>!a.IsAbstract && (a.BaseType == typeof(BaseService) || a.BaseType?.BaseType==typeof(BaseService) )))
             {
                 var inter = servertypes.SingleOrDefault(a => a.IsInterface && a.IsAssignableFrom(item));
                 if (inter != null)
@@ -57,8 +58,6 @@ namespace MediPlus.Service.Base
            
             foreach (var item in repositorytypes.Where(a => !a.IsAbstract && typeof(IUnitOfWork).IsAssignableFrom(a)))
             {
-                var oowf = item.GetInterfaces();
-                var oooooooo = domaininterface.Where(a =>a.Name != typeof(IMediPlusBaseContext).Name && typeof(IMediPlusBaseContext).IsAssignableFrom(a) && a.IsAssignableFrom(item));
                 var inter = domaininterface.SingleOrDefault(a => a.Name != typeof(IMediPlusBaseContext).Name && typeof(IMediPlusBaseContext).IsAssignableFrom(a) && a.IsAssignableFrom(item));
                 if (inter != null)
                 {
@@ -92,7 +91,6 @@ namespace MediPlus.Service.Base
 
 
             builder.RegisterType<Log>();
-
         }
         
 
@@ -107,14 +105,12 @@ namespace MediPlus.Service.Base
     /// </summary>
     public class Log : Castle.DynamicProxy.IInterceptor
     {
-        public void Intercept(IInvocation invocation) {
-            Console.WriteLine(invocation.Method.Name +" befroe");
+        public void Intercept(Castle.DynamicProxy.IInvocation invocation)
+        {
+            Console.WriteLine(invocation.Method.Name + " befroe");
             invocation.Proceed();
             Console.WriteLine(invocation.Method.Name + " after");
         }
     }
-
-
-
 
 }

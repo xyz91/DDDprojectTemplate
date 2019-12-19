@@ -8,7 +8,7 @@ using MediPlus.Service.Interface;
 
 namespace MediPlus.Service
 {
-   public class MediTestMongoService   : BaseUnitService<MediTest, string, MediTestDTO>, IMediTestMongoService
+   internal class MediTestMongoService   : BaseUnitService<MediTest, string, MediTestDTO>, IMediTestMongoService
     {
         private new IMediTestMongoRepository repository;
         public MediTestMongoService(IMediTestMongoRepository repository):base(repository) {

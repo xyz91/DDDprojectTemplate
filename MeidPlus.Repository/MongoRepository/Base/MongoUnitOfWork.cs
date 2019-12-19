@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using MediPlus.Domain.IRepositories;
 using MediPlus.Domain.IRepositories.BaseRepository;
 using MeidPlus.Repository.MongoRepository.Mapping;
@@ -18,6 +19,8 @@ namespace MeidPlus.Repository.MongoRepository.Base
 
         public int Commit() => throw new NotImplementedException();
         public void RollBack() => throw new NotImplementedException();
+        public Task<int> CommitAsync() => throw new NotImplementedException();
+
         static MongoUnitOfWork() {
             MongodbMapping.Register();
         }

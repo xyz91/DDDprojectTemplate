@@ -10,7 +10,7 @@ using MeidPlus.Repository.EFRepository.Context;
 
 namespace MeidPlus.Repository.EFRepository
 {
-  public  class MediTestEFRepository: EFBaseRepository<MediTest, string>, IMediTestEFRepository
+  internal  class MediTestEFRepository: EFBaseRepository<MediTest, string>, IMediTestEFRepository
     {
         public MediTestEFRepository(IMediPlusContext context):base(context) { 
         

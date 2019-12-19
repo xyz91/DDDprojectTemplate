@@ -12,7 +12,7 @@ using MediPlus.Domain.IRepositories.Context;
 
 namespace MeidPlus.Repository.MongoRepository
 {
-  public  class MediTestMongoRepository : MongoBaseRepository<MediTest, string>, IMediTestMongoRepository
+  internal  class MediTestMongoRepository : MongoBaseRepository<MediTest, string>, IMediTestMongoRepository
     {
         public MediTestMongoRepository(IMediPlusMongoContext unitOfWork):base(unitOfWork) {
            

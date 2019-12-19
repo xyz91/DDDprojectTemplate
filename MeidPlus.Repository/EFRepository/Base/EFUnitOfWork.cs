@@ -1,42 +1,36 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Microsoft.Extensions.Configuration;
-using MediPlus.Domain.IRepositories;
-using Microsoft.EntityFrameworkCore;
-using MediPlus.Domain.IRepositories.BaseRepository;
-using MediPlus.Utility;
-using MediPlus.Domain.Model;
-using System.Linq;
+﻿using Autofac;
 using MediPlus.Domain.Event;
-using Microsoft.Extensions.DependencyInjection;
-using Autofac;
+using MediPlus.Domain.IRepositories.BaseRepository;
+using MediPlus.Domain.Model;
+using MediPlus.Domain.Model.BaseModel;
+using MediPlus.Utility;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Console;
-using Microsoft.Extensions.Options;
-using MediPlus.Domain.Model.BaseModel;
-using Microsoft.EntityFrameworkCore.Diagnostics;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace MeidPlus.Repository.EFRepository.Base
 {
-    public abstract class EFUnitOfWork : DbContext, IUnitOfWork,IUnionOfWork
+    public abstract class EFUnitOfWork : DbContext, IUnitOfWork, IUnionOfWork
     {
         protected abstract string Constr { get; }
         protected IConfiguration Configuration { get; }
 
         public static readonly ILoggerFactory Logger
-     = LoggerFactory.Create(builder => { builder.AddConsole(); });
-        protected EFUnitOfWork(IConfiguration configuration)
-        {
-            this.Configuration = configuration; 
-        }
+    = LoggerFactory.Create(builder => { builder.AddConsole(); });
+        protected EFUnitOfWork(IConfiguration configuration) => Configuration = configuration;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder = optionsBuilder.UseLazyLoadingProxies()
                 .UseSqlServer(Configuration.GetConnectionString(Constr));
             base.OnConfiguring(optionsBuilder);
-            optionsBuilder.EnableServiceProviderCaching();
+            //optionsBuilder.EnableServiceProviderCaching();
             optionsBuilder.UseLoggerFactory(Logger);
             optionsBuilder.EnableSensitiveDataLogging(true);
             optionsBuilder.ConfigureWarnings(warn => warn.Log(CoreEventId.DetachedLazyLoadingWarning));
@@ -45,33 +39,82 @@ namespace MeidPlus.Repository.EFRepository.Base
 
         public int Commit()
         {
-            var doamins = this.ChangeTracker.Entries<Obj>().Where(a => a.Entity.EventDatas != null && a.Entity.EventDatas.Any());
-            var events = doamins.SelectMany(a => a.Entity.EventDatas).ToList();            
+            IEnumerable<Microsoft.EntityFrameworkCore.ChangeTracking.EntityEntry<Obj>> doamins = ChangeTracker.Entries<Obj>().Where(a => a.Entity.EventDatas != null && a.Entity.EventDatas.Any());
+            IEnumerable<Obj> entity = doamins.Select(a => a.Entity);
+            List<IEventData> events = entity.SelectMany(a => a.EventDatas).ToList();
             //DoEvent(events, EventType.BeforeSave);
-            var result = this.SaveChanges();
-            if (result > 0)
-            {              
-                DoEvent(events, EventType.AfterSave);
-            }            
+            int result = SaveChanges();
+            Task<int> o = SaveChangesAsync();
+            try
+            {
+                if (result > 0 && events != null && events.Count > 0)
+                {
+                    DoEvent(events, EventType.AfterSave);
+                    foreach (Obj item in entity)
+                    {
+                        item.ClearEvents();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"{ex.Message},{ex.StackTrace}");
+            }
+            return result;
+        }
+        public async Task<int> CommitAsync()
+        {
+            IEnumerable<Microsoft.EntityFrameworkCore.ChangeTracking.EntityEntry<Obj>> doamins = ChangeTracker.Entries<Obj>().Where(a => a.Entity.EventDatas != null && a.Entity.EventDatas.Any());
+            IEnumerable<Obj> entity = doamins.Select(a => a.Entity).ToList();
+            List<IEventData> events = entity.SelectMany(a => a.EventDatas).ToList();
+            int result = await SaveChangesAsync();
+            if (result > 0 && events != null && events.Count > 0)
+            {
+       
+                await Task.Run(() =>
+                {
+                    try
+                    {                        
+                        DoEvent(events, EventType.AfterSave);
+                        foreach (Obj item in entity)
+                        {
+                            item.ClearEvents();
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"{ex.Message},{ex.StackTrace}");
+                    }
+                });
+            }
+
             return result;
         }
 
         private void DoEvent(List<IEventData> eventDatas, EventType eventType)
         {
             //var list = eventDatas.Where(a=>a.EventType == eventType);
-            foreach (var item in eventDatas)
+            foreach (IEventData item in eventDatas)
             {
-                var handlerlist = ServiceLocator.Container.ResolveNamed<IEnumerable<IEventHandler>>(item.GetType().Name);
-                foreach (var service in handlerlist)
+                IEnumerable<IEventHandler> handlerlist = ServiceLocator.Container.ResolveNamed<IEnumerable<IEventHandler>>(item.GetType().Name);
+                foreach (IEventHandler service in handlerlist)
                 {
-                    service.HandleEvent(item);
+                    try
+                    {
+                        service.HandleEvent(item);
+                    }
+                    catch (Exception e)
+                    {
+                        service.OnError(item, e);
+                    }
+
                 }
             }
         }
         public void RollBack() { }
 
-        public void RegisAdd<T, K>(T t) where T : AggregateRoot<K> => this.Set<T>().Add(t);
-        public void RegisUpdate<T, K>(T t) where T : AggregateRoot<K> =>this.Set<T>().Update(t); 
-        public void RegisDelete<T, K>(T t) where T : AggregateRoot<K> => this.Set<T>().Remove(t); 
+        public void RegisAdd<T, K>(T t) where T : AggregateRoot<K> => Set<T>().Add(t);
+        public void RegisUpdate<T, K>(T t) where T : AggregateRoot<K> => Set<T>().Update(t);
+        public void RegisDelete<T, K>(T t) where T : AggregateRoot<K> => Set<T>().Remove(t);
     }
 }

@@ -6,9 +6,9 @@ namespace MediPlus.Domain.Event
 {
     public interface IEventData
     {
-       public DateTime EventTime { get; set; }
-        public object EventSource { get; set; }
-        public EventType EventType { get; set; }
+        DateTime EventTime { get; set; }
+         object EventSource { get; set; }
+         EventType EventType { get; set; }
     }
     public enum EventType
     {

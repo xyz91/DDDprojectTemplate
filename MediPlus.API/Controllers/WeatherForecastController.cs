@@ -24,6 +24,7 @@ namespace MediPlus.API.Controllers
         }
 
         [HttpGet]
+        [PermissionCheck]
         public IEnumerable<WeatherForecast> Get()
         {
             var rng = new Random();

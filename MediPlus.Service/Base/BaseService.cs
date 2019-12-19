@@ -4,7 +4,7 @@ using System.Text;
 
 namespace MediPlus.Service.Base
 {
-   public  class BaseService
+   public abstract class BaseService
     {
     }
 }

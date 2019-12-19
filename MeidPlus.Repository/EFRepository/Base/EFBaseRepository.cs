@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
+using System.Threading.Tasks;
 using MediPlus.Domain.Event;
 using MediPlus.Domain.IRepositories;
 using MediPlus.Domain.IRepositories.BaseRepository;
@@ -35,7 +36,7 @@ namespace MeidPlus.Repository.EFRepository
             PageModel<T> page = new PageModel<T>() { PageIndex = pageIndex, PageSize = pageSize};
             where = where ?? (t => true);
             page.DataCount =  Entities.Count(where);              
-            var query = Entities.AsNoTracking().Where(where);
+            var query = (Entities as DbSet<T>).AsNoTracking().Where(where);
             if (orderby != null)
             {
                 query = desc ? query.OrderByDescending(orderby) : query.OrderBy(orderby);
@@ -43,8 +44,30 @@ namespace MeidPlus.Repository.EFRepository
             page.List = query.Skip(page.PageSize * (page.PageIndex - 1)).Take(pageSize).ToList();
             return page;
         }
-        public PageModel<T> Search(int pageIndex, int pageSize, Expression<Func<T, bool>> where = null) {
-            return Search<K>(pageIndex, pageSize, where,a=>a.Id,true);
+        public async Task<PageModel<T>> SearchAsync<P>(int pageIndex, int pageSize, Expression<Func<T, bool>> where = null, Expression<Func<T, P>> orderby = null, bool desc = true)
+        {
+            return await Task.Run(() => {
+                PageModel<T> page = new PageModel<T>() { PageIndex = pageIndex, PageSize = pageSize };
+                where = where ?? (t => true);
+                page.DataCount = Entities.Count(where);
+                var query = Entities.AsNoTracking().Where(where);
+                if (orderby != null)
+                {
+                    query = desc ? query.OrderByDescending(orderby) : query.OrderBy(orderby);
+                }
+                page.List = query.Skip(page.PageSize * (page.PageIndex - 1)).Take(pageSize).ToList();
+
+                return page;
+            });
+
+        }
+        public PageModel<T> Search(int pageIndex, int pageSize, Expression<Func<T, bool>> where = null)
+        {
+            return Search<K>(pageIndex, pageSize, where, a => a.Id, true);
+        }
+        public  Task<PageModel<T>> SearchAsync(int pageIndex, int pageSize, Expression<Func<T, bool>> where = null)
+        {
+            return  SearchAsync<K>(pageIndex, pageSize, where, a => a.Id, true);
         }
         public virtual void Load<P>(T t, Expression<Func<T, IEnumerable<P>>> expression) where P:class
         {
@@ -66,6 +89,30 @@ namespace MeidPlus.Repository.EFRepository
         public virtual int Update(T t) {
             unitOfWork.Set<T>().Update(t);
             return unitOfWork.Commit();
+        }
+
+        public async Task<int> InsertAsync(T t) {
+           await  unitOfWork.Set<T>().AddAsync(t);
+            return await unitOfWork.CommitAsync();
+        }
+        public async Task<int> DeleteAsync(K id) {
+           var t = await GetGyIdAsync(id);
+            if (t == null)
+            {
+                return 0;
+            }
+            return await DeleteAsync(t);
+        }
+        public  Task<int> DeleteAsync(T t) {
+            unitOfWork.Set<T>().Remove(t);
+            return  unitOfWork.CommitAsync();
+        }
+        public  Task<int> UpdateAsync(T t) {
+            unitOfWork.Set<T>().Update(t);
+            return  unitOfWork.CommitAsync();
+        }
+        public async  Task<T> GetGyIdAsync(K id) {
+           return await unitOfWork.Set<T>().FindAsync(id);
         }
     }
 }
