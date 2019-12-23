@@ -4,7 +4,7 @@ using System.Text;
 
 namespace MeidPlus.Repository.Base
 {
-    public class BaseRepository
+    public abstract class BaseRepository
     {
     }
 }

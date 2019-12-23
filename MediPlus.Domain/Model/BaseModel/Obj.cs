@@ -9,7 +9,7 @@ namespace MediPlus.Domain.Model.BaseModel
     {
         private List<IEventData> _events;
         public IReadOnlyCollection<IEventData> EventDatas => _events?.AsReadOnly();
-        public void AddEvent(IEventData eventData)
+        protected void AddEvent(IEventData eventData)
         {
             _events = _events ?? new List<IEventData>();
             _events.Add(eventData);
@@ -18,7 +18,7 @@ namespace MediPlus.Domain.Model.BaseModel
         {
             _events?.Clear();
         }
-        public void RemoveEvent(IEventData eventData)
+        protected void RemoveEvent(IEventData eventData)
         {
             _events?.Remove(eventData);
         }

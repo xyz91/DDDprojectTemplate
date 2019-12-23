@@ -11,14 +11,10 @@ namespace MediPlus.API
     {
         protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, MediPlusRequirement requirement)
         {
-            //AuthorizationFilterContext filterContext = context.Resource as AuthorizationFilterContext;
-            //HttpContext httpContext = accessor.HttpContext; 
-            
             if (context.User.Identity.IsAuthenticated)
             {
-                //ControllerActionDescriptor action = filterContext.ActionDescriptor as ControllerActionDescriptor;
-                //object[] oooo = action.ControllerTypeInfo.GetCustomAttributes(typeof(PermissionCheckAttribute), true);
-                //object[] oofw = action.MethodInfo.GetCustomAttributes(typeof(PermissionCheckAttribute), true);
+                var endpoint = context.Resource as Microsoft.AspNetCore.Routing.RouteEndpoint;
+                var attrs = endpoint.Metadata.GetOrderedMetadata<PermissionCheckAttribute>();
                 context.Succeed(requirement);
             }
             return Task.CompletedTask;

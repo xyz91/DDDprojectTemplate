@@ -22,7 +22,7 @@ namespace MeidPlus.Repository.EFRepository.Base
         protected IConfiguration Configuration { get; }
 
         public static readonly ILoggerFactory Logger
-    = LoggerFactory.Create(builder => { builder.AddConsole(); });
+     = LoggerFactory.Create(builder => { builder.AddConsole(); });
         protected EFUnitOfWork(IConfiguration configuration) => Configuration = configuration;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -65,7 +65,7 @@ namespace MeidPlus.Repository.EFRepository.Base
         public async Task<int> CommitAsync()
         {
             IEnumerable<Microsoft.EntityFrameworkCore.ChangeTracking.EntityEntry<Obj>> doamins = ChangeTracker.Entries<Obj>().Where(a => a.Entity.EventDatas != null && a.Entity.EventDatas.Any());
-            IEnumerable<Obj> entity = doamins.Select(a => a.Entity).ToList();
+            IEnumerable<Obj> entity = doamins.Select(a => a.Entity);
             List<IEventData> events = entity.SelectMany(a => a.EventDatas).ToList();
             int result = await SaveChangesAsync();
             if (result > 0 && events != null && events.Count > 0)
@@ -74,7 +74,7 @@ namespace MeidPlus.Repository.EFRepository.Base
                 await Task.Run(() =>
                 {
                     try
-                    {                        
+                    {     
                         DoEvent(events, EventType.AfterSave);
                         foreach (Obj item in entity)
                         {

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MediPlus.Domain.Event;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -14,7 +15,12 @@ namespace MediPlus.Domain.Model
             private set { _mediTestNodes = value; }
         }
         public void AddNode(params MediTestNode[] nodes) {
-            _mediTestNodes.AddRange(nodes); 
+            _mediTestNodes.AddRange(nodes);
+            AddEvent(new MediTestAddNodeEventData()
+            {
+                MediTestNodes = nodes,
+                MediTest = this,
+            });
         }
         
     }

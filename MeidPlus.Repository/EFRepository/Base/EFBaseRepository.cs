@@ -111,8 +111,9 @@ namespace MeidPlus.Repository.EFRepository
             unitOfWork.Set<T>().Update(t);
             return  unitOfWork.CommitAsync();
         }
-        public async  Task<T> GetGyIdAsync(K id) {
-           return await unitOfWork.Set<T>().FindAsync(id);
+        public async Task<T> GetGyIdAsync(K id) {
+            var result = await unitOfWork.Set<T>().FindAsync(id);
+            return result;
         }
     }
 }

@@ -9,6 +9,7 @@ namespace MediPlus.API.Controllers
 {
     //[ApiController]
     //[Route("[controller]")]
+    [PermissionCheck(PowerId =23)]
     public class WeatherForecastController : Controller
     {
         private static readonly string[] Summaries = new[]
@@ -24,7 +25,7 @@ namespace MediPlus.API.Controllers
         }
 
         [HttpGet]
-        [PermissionCheck]
+        [PermissionCheck(PowerId =54)]
         public IEnumerable<WeatherForecast> Get()
         {
             var rng = new Random();

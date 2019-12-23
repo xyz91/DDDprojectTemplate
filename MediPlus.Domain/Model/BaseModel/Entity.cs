@@ -6,7 +6,7 @@ using MediPlus.Domain.Model.BaseModel;
 
 namespace MediPlus.Domain.Model
 {
-   public abstract class Entity<K>:Obj,IEntity
+   public abstract class Entity<K>:Obj,IEntity 
     {
         protected Entity(K k)
         {
