@@ -24,10 +24,10 @@ namespace MediPlus.Domain.IRepositories.BaseRepository
         Task<int> UpdateAsync(T t);
         T GetById(K id);
         Task<T> GetGyIdAsync(K id);
-         PageModel<T> Search<P>(int pageIndex, int pageSize, Expression<Func<T, bool>> where = null, Expression<Func<T, P>> orderby = null, bool desc = true);
-         PageModel<T> Search(int pageIndex, int pageSize, Expression<Func<T, bool>> where = null);
-        Task<PageModel<T>> SearchAsync<P>(int pageIndex, int pageSize, Expression<Func<T, bool>> where = null, Expression<Func<T, P>> orderby = null, bool desc = true);
-        Task<PageModel<T>> SearchAsync(int pageIndex, int pageSize, Expression<Func<T, bool>> where = null);
+         Page<T> Search<P>(int pageIndex, int pageSize, Expression<Func<T, bool>> where = null, Expression<Func<T, P>> orderby = null, bool desc = true);
+         Page<T> Search(int pageIndex, int pageSize, Expression<Func<T, bool>> where = null);
+        Task<Page<T>> SearchAsync<P>(int pageIndex, int pageSize, Expression<Func<T, bool>> where = null, Expression<Func<T, P>> orderby = null, bool desc = true);
+        Task<Page<T>> SearchAsync(int pageIndex, int pageSize, Expression<Func<T, bool>> where = null);
 
 
     }

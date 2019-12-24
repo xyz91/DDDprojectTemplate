@@ -31,12 +31,12 @@ namespace MeidPlus.Repository.MongoRepository
         public int Delete(K id)
         {
             var filter = Builders<T>.Filter.Eq(a=>a.Id,id);
-           return Convert.ToInt32(Collection.DeleteOne(filter).DeletedCount);
+           return  Convert.ToInt32(Collection.DeleteOne(filter).DeletedCount);
         }
-        public PageModel<T> Search<P>(int pageIndex, int pageSize, Expression<Func<T, bool>> where = null, Expression<Func<T, P>> orderby = null, bool desc = true)
+        public Page<T> Search<P>(int pageIndex, int pageSize, Expression<Func<T, bool>> where = null, Expression<Func<T, P>> orderby = null, bool desc = true)
         {
            
-            PageModel<T> page = new PageModel<T>() { PageIndex = pageIndex, PageSize = pageSize };
+            Page<T> page = new Page<T>() { PageIndex = pageIndex, PageSize = pageSize };
             where = where ?? (t => true);
             page.DataCount = Entities.Count(where);           
             var query = Entities.Where(where);
@@ -48,10 +48,10 @@ namespace MeidPlus.Repository.MongoRepository
             
             return page;
         }
-        public async Task<PageModel<T>> SearchAsync<P>(int pageIndex, int pageSize, Expression<Func<T, bool>> where = null, Expression<Func<T, P>> orderby = null, bool desc = true)
+        public async Task<Page<T>> SearchAsync<P>(int pageIndex, int pageSize, Expression<Func<T, bool>> where = null, Expression<Func<T, P>> orderby = null, bool desc = true)
         {
             return await Task.Run(() => {
-                PageModel<T> page = new PageModel<T>() { PageIndex = pageIndex, PageSize = pageSize };
+                Page<T> page = new Page<T>() { PageIndex = pageIndex, PageSize = pageSize };
                 where = where ?? (t => true);
                 page.DataCount = Entities.Count(where);
                 var query = Entities.Where(where);
@@ -65,33 +65,41 @@ namespace MeidPlus.Repository.MongoRepository
             });
             
         }
-        public PageModel<T> Search(int pageIndex, int pageSize, Expression<Func<T, bool>> where = null)
+        public Page<T> Search(int pageIndex, int pageSize, Expression<Func<T, bool>> where = null)
         {
             return Search<K>(pageIndex, pageSize, where, a => a.Id, true);
         }
-        public  Task<PageModel<T>> SearchAsync(int pageIndex, int pageSize, Expression<Func<T, bool>> where = null)
+        public  Task<Page<T>> SearchAsync(int pageIndex, int pageSize, Expression<Func<T, bool>> where = null)
         {
             return  SearchAsync<K>(pageIndex, pageSize, where, a=>a.Id,true);
         }
         public int Delete(T t) {
-           return  Delete(t.Id);
+           int i =  Delete(t.Id);
+            unitOfWork.DoEvent(t);
+            return i;
         }
         public T GetById(K id) {
             var filter = Builders<T>.Filter.Eq(a => a.Id, id);
             return Collection.Find(filter).FirstOrDefault();
         }
         public int Insert(T t) {
-            Collection.InsertOne(t);                   
+            Collection.InsertOne(t);
+            unitOfWork.DoEvent(t);
             return 1;
         }        
         public int Update(T t) {
             var filter = Builders<T>.Filter.Eq(a => a.Id, t.Id);
             var result = Collection.ReplaceOne(filter, t, new UpdateOptions() { IsUpsert = true });
+            if (result.ModifiedCount > 0)
+            {
+                unitOfWork.DoEvent(t);
+            }
             return Convert.ToInt32( result.ModifiedCount);
         }
 
         public async Task<int> InsertAsync(T t) {
             await  Collection.InsertManyAsync(new[] { t });
+            unitOfWork.DoEvent(t);
             return 1; 
         }
         public async Task<int> DeleteAsync(K id) {
@@ -100,11 +108,20 @@ namespace MeidPlus.Repository.MongoRepository
             return Convert.ToInt32( result.DeletedCount);
         }
         public async Task<int> DeleteAsync(T t) {
-            return await DeleteAsync(t.Id);
+            var i = await DeleteAsync(t.Id);
+            if (i > 0)
+            {
+                unitOfWork.DoEvent(t);
+            }
+            return i;
         }
         public async Task<int> UpdateAsync(T t) {
             var filter = Builders<T>.Filter.Eq(a => a.Id, t.Id);
            var result = await Collection.ReplaceOneAsync(filter, t, new UpdateOptions() { IsUpsert = true});
+            if (result.ModifiedCount > 0)
+            {
+                unitOfWork.DoEvent(t);
+            }
             return Convert.ToInt32(result.ModifiedCount);
                 }
         public async Task<T> GetGyIdAsync(K id) {

@@ -11,7 +11,7 @@ namespace MeidPlus.Repository.MongoRepository.Base
     {
         protected abstract string DataBaseName { get;  }
         protected abstract string Connstr { get; }
-        private IMongoDatabase Database { get; }
+        protected IMongoDatabase Database { get; }
         private static object _lock = new object();
         protected MongoBaseContext(IConfiguration configuration, ref MongoClient client)
         {
@@ -25,6 +25,7 @@ namespace MeidPlus.Repository.MongoRepository.Base
                 }
             }
             Database = client.GetDatabase(DataBaseName);
+            
         }
         
         public  IMongoCollection<T> GetCollection<T>() =>Database.GetCollection<T>(typeof(T).Name);

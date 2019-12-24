@@ -19,7 +19,7 @@ namespace MediPlus.Service
                 CreateMap(arg[0], arg[2]).ReverseMap();
             }
             CreateMap<MediTestNode, MediTestNodeDTO>().ReverseMap();
-            CreateMap(typeof(PageModel<>), typeof(PageDTO<>));
+            CreateMap(typeof(Page<>), typeof(PageDTO<>));
         }
     }
 }

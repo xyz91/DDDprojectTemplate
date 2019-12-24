@@ -22,11 +22,11 @@ namespace MediPlus.Service
             
         }
         public PageDTO<D> Search(int pageIndex,int pageSize) {
-            return Map<PageModel<T>,PageDTO<D>>(repository.Search(pageIndex, pageSize));
+            return Map<Page<T>,PageDTO<D>>(repository.Search(pageIndex, pageSize));
         }
         public async Task<PageDTO<D>> SearchAsync(int pageIndex, int pageSize)
         {
-            return Map<PageModel<T>, PageDTO<D>>(await repository.SearchAsync(pageIndex, pageSize));
+            return Map<Page<T>, PageDTO<D>>(await repository.SearchAsync(pageIndex, pageSize));
         }
         public M Map<S,M>(S s) {
            return Mapper.Map<S, M>(s);

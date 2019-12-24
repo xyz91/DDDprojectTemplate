@@ -4,7 +4,7 @@ using System.Text;
 
 namespace MediPlus.Domain.Model
 {
-   public class PageModel<T>
+   public class Page<T>
     {
 
         private int _pageIndex = 1;

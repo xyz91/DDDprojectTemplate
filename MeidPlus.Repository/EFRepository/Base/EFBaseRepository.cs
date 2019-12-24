@@ -31,9 +31,9 @@ namespace MeidPlus.Repository.EFRepository
             }                              
             return Delete(t);
         }
-        public PageModel<T> Search<P>(int pageIndex , int pageSize , Expression<Func<T, bool>> where=null, Expression<Func<T, P>> orderby=null, bool desc = true)
+        public Page<T> Search<P>(int pageIndex , int pageSize , Expression<Func<T, bool>> where=null, Expression<Func<T, P>> orderby=null, bool desc = true)
         {            
-            PageModel<T> page = new PageModel<T>() { PageIndex = pageIndex, PageSize = pageSize};
+            Page<T> page = new Page<T>() { PageIndex = pageIndex, PageSize = pageSize};
             where = where ?? (t => true);
             page.DataCount =  Entities.Count(where);              
             var query = (Entities as DbSet<T>).AsNoTracking().Where(where);
@@ -44,10 +44,10 @@ namespace MeidPlus.Repository.EFRepository
             page.List = query.Skip(page.PageSize * (page.PageIndex - 1)).Take(pageSize).ToList();
             return page;
         }
-        public async Task<PageModel<T>> SearchAsync<P>(int pageIndex, int pageSize, Expression<Func<T, bool>> where = null, Expression<Func<T, P>> orderby = null, bool desc = true)
+        public async Task<Page<T>> SearchAsync<P>(int pageIndex, int pageSize, Expression<Func<T, bool>> where = null, Expression<Func<T, P>> orderby = null, bool desc = true)
         {
             return await Task.Run(() => {
-                PageModel<T> page = new PageModel<T>() { PageIndex = pageIndex, PageSize = pageSize };
+                Page<T> page = new Page<T>() { PageIndex = pageIndex, PageSize = pageSize };
                 where = where ?? (t => true);
                 page.DataCount = Entities.Count(where);
                 var query = Entities.AsNoTracking().Where(where);
@@ -61,11 +61,11 @@ namespace MeidPlus.Repository.EFRepository
             });
 
         }
-        public PageModel<T> Search(int pageIndex, int pageSize, Expression<Func<T, bool>> where = null)
+        public Page<T> Search(int pageIndex, int pageSize, Expression<Func<T, bool>> where = null)
         {
             return Search<K>(pageIndex, pageSize, where, a => a.Id, true);
         }
-        public  Task<PageModel<T>> SearchAsync(int pageIndex, int pageSize, Expression<Func<T, bool>> where = null)
+        public  Task<Page<T>> SearchAsync(int pageIndex, int pageSize, Expression<Func<T, bool>> where = null)
         {
             return  SearchAsync<K>(pageIndex, pageSize, where, a => a.Id, true);
         }
