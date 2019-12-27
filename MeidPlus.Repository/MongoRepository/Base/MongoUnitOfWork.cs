@@ -15,7 +15,7 @@ using MongoDB.Driver;
 
 namespace MeidPlus.Repository.MongoRepository.Base
 {
-    public abstract class MongoUnitOfWork : MongoBaseContext, IUnitOfWork, IUnionOfWork
+    public abstract class MongoUnitOfWork : MongoBaseContext, IUnitOfWork
     {
         private MongoClient _client = null;
         private IClientSessionHandle _sessionHandle = null;
@@ -36,7 +36,6 @@ namespace MeidPlus.Repository.MongoRepository.Base
                 return _sessionHandle;
             }
         }
-        public bool IsCommitted { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         protected MongoUnitOfWork(IConfiguration configuration, ref MongoClient client) : base(configuration, ref client) {
             _client = client;
         }
@@ -46,6 +45,7 @@ namespace MeidPlus.Repository.MongoRepository.Base
             {
                 SessionHandle.CommitTransaction();
                 DoEvent(changeObj.ToArray());
+                changeObj.Clear();
                 return 1;
             }
             catch
@@ -70,39 +70,47 @@ namespace MeidPlus.Repository.MongoRepository.Base
             }
 
         }
-        public void DoEvent(params Obj[] objs)
+        public void DoEvent(params Obj[] objarr)
         {
-            //var list = eventDatas.Where(a=>a.EventType == eventType);
-            foreach (Obj obj in objs)
-            {
-                if (obj.EventDatas?.Count > 0)
+            Task.Factory.StartNew(a=> {
+                //var list = eventDatas.Where(a=>a.EventType == eventType);
+                Obj[] objs = a as Obj[];
+                foreach (Obj obj in objs)
                 {
-                    foreach (var item in obj.EventDatas)
+                    if (obj.EventDatas?.Count > 0)
                     {
-                        IEnumerable<IEventHandler> handlerlist = ServiceLocator.Container.ResolveNamed<IEnumerable<IEventHandler>>(item.GetType().Name);
-                        foreach (IEventHandler service in handlerlist)
+                        foreach (var item in obj.EventDatas)
                         {
-                            try
+                            IEnumerable<IEventHandler> handlerlist = ServiceLocator.Container.ResolveNamed<IEnumerable<IEventHandler>>(item.GetType().Name);
+                            foreach (IEventHandler service in handlerlist)
                             {
-                                service.HandleEvent(item);
-                            }
-                            catch (Exception e)
-                            {
-                                try {
-                                    service.OnError(item, e);
-                                } catch {}
-                            }
+                                try
+                                {
+                                    service.HandleEvent(item);
+                                }
+                                catch (Exception e)
+                                {
+                                    try
+                                    {
+                                        service.OnError(item, e);
+                                    }
+                                    catch { }
+                                }
 
+                            }
                         }
+                        obj.ClearEvents();
                     }
-                    obj.ClearEvents();
-                }               
-            }
+                }
+            }, objarr);
+            
+            
         }
         public async Task<int> CommitAsync() {
             try
             {
               await  SessionHandle.CommitTransactionAsync();
+                changeObj.Clear();
                 return 1;
             }
             catch

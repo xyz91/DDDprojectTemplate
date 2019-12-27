@@ -18,15 +18,14 @@ namespace MediPlus.Service
         protected  IRepository<T, K> repository;
         private IMapper Mapper { get; set; }= (IMapper)ServiceLocator.Provider.GetService(typeof(IMapper));
         protected BaseUnitService(IRepository<T, K> repository){
-            this.repository = repository;              
-            
+            this.repository = repository;
         }
-        public PageDTO<D> Search(int pageIndex,int pageSize) {
-            return Map<Page<T>,PageDTO<D>>(repository.Search(pageIndex, pageSize));
+        public PagingDTO<D> Search(int pageIndex,int pageSize) {
+            return Map<PagingObject<T>,PagingDTO<D>>(repository.Search(pageIndex, pageSize));
         }
-        public async Task<PageDTO<D>> SearchAsync(int pageIndex, int pageSize)
+        public async Task<PagingDTO<D>> SearchAsync(int pageIndex, int pageSize)
         {
-            return Map<Page<T>, PageDTO<D>>(await repository.SearchAsync(pageIndex, pageSize));
+            return Map<PagingObject<T>, PagingDTO<D>>(await repository.SearchAsync(pageIndex, pageSize));
         }
         public M Map<S,M>(S s) {
            return Mapper.Map<S, M>(s);
@@ -41,54 +40,54 @@ namespace MediPlus.Service
         public T Map(D obj) {
             return Mapper?.Map<T>(obj);
         }
-        public T GetById(K id) {
+        public virtual T GetById(K id) {
            return repository.GetById(id);
         }
-        public D GetDTOById(K id) {
+        public virtual D GetDTOById(K id) {
             return Map(GetById(id));
         }
-        public int Insert(T t) {            
+        public virtual int Insert(T t) {            
             return repository.Insert(t);
         }
-        public int Insert(D d) {
+        public virtual int Insert(D d) {
             return Insert(Map(d));
         }
-        public int Delete(K id) {
+        public virtual int Delete(K id) {
             return repository.Delete(id);
         }
-        public int Delete(T t)
+        public virtual int Delete(T t)
         {
             return repository.Delete(t.Id);
         }
-        public int Update(T t) {           
+        public virtual int Update(T t) {           
             return repository.Update(t);
         }
-        public int Update(D d) {
+        public virtual int Update(D d) {
             return repository.Update(Map(d));
         }
 
-        public Task<T> GetByIdAsnyc(K id) {
+        public virtual Task<T> GetByIdAsnyc(K id) {
            return repository.GetGyIdAsync(id);
         }
-        public async Task<D> GetDTOByIdAsnyc(K id) {
+        public virtual async Task<D> GetDTOByIdAsnyc(K id) {
           return Map(await GetByIdAsnyc(id));
         }
-        public Task<int> InsertAsync(T t) {
+        public virtual Task<int> InsertAsync(T t) {
             return repository.InsertAsync(t);
         }
-        public Task<int> InsertAsnyc(D d) {
+        public virtual Task<int> InsertAsnyc(D d) {
             return repository.InsertAsync(Map(d));
         }
-        public Task<int> DeleteAsync(K id) {
+        public virtual Task<int> DeleteAsync(K id) {
             return repository.DeleteAsync(id);
         }
-        public Task<int> DeleteAsync(T t) {
+        public virtual Task<int> DeleteAsync(T t) {
             return repository.DeleteAsync(t);
         }
-        public Task<int> UpdateAsync(T t) {
+        public virtual Task<int> UpdateAsync(T t) {
             return repository.UpdateAsync(t);
         }
-        public Task<int> UpdateAsync(D d) {
+        public virtual Task<int> UpdateAsync(D d) {
             return repository.UpdateAsync(Map(d));
         }
     }

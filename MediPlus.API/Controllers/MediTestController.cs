@@ -18,16 +18,15 @@ namespace MediPlus.API.Controllers
             this.mediTest2Service = mediTest2Service;
             this.mediTestMongoService = mediTestMongoService;
         }
-        [PermissionCheck]
         public string Index() {
             return "ok";
         }
+        //[HttpGet]
+        //public PagingDTO<MediTestDTO> Searchef() {
+        //   return  mediTestService.Search(1, 10);
+        //}
         [HttpGet]
-        public PageDTO<MediTestDTO> Searchef() {
-           return  mediTestService.Search(1, 10);
-        }
-        [HttpGet]
-        public Task<PageDTO<MediTestDTO>> SearchefAsync() {
+        public Task<PagingDTO<MediTestDTO>> SearchefAsync() {
             return mediTestService.SearchAsync(1, 10);
         }
         [HttpPost]
@@ -39,12 +38,12 @@ namespace MediPlus.API.Controllers
             return mediTestService.AddNodeAsync(medi.Id, medi.MediTestNodes?.ToArray());
         }
         [HttpGet]
-        public PageDTO<MediTestDTO> Searchef2()
+        public PagingDTO<MediTestDTO> Searchef2()
         {
             return mediTest2Service.Search(1, 10);
         }
         [HttpGet]
-        public PageDTO<MediTestDTO> Searchmongo()
+        public PagingDTO<MediTestDTO> Searchmongo()
         {
             return mediTestMongoService.Search(1, 10);
         }
@@ -105,6 +104,13 @@ namespace MediPlus.API.Controllers
         public int Deletemongo(string id)
         {
             return mediTestMongoService.Delete(id);
+        }
+
+        public bool StringSet(string key,string value) {
+            return mediTestService.StringSet(key, value, 60*60);
+        }
+        public string StringGet(string key) {
+            return mediTestService.StringGet(key);
         }
     }
 }

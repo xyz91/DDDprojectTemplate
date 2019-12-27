@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using MediPlus.Domain.IRepositories.Context;
 using MeidPlus.Repository.EFRepository.Base;
 using MeidPlus.Repository.EFRepository.Mapping;
 using Microsoft.EntityFrameworkCore;
@@ -9,7 +8,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace MeidPlus.Repository.EFRepository.Context
 {
-   public class MediPlusContext: EFUnitOfWork , IMediPlusContext
+   public class MediPlusContext: EFUnitOfWork 
     {
         public MediPlusContext(IConfiguration configuration) : base(configuration)
         {

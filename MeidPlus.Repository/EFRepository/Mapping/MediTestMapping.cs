@@ -14,6 +14,7 @@ namespace MeidPlus.Repository.EFRepository.Mapping
             builder.Property(a => a.Id).ValueGeneratedOnAdd();
             builder.Property(a => a.Name).HasColumnName("testname");
             builder.HasMany(a => a.MediTestNodes).WithOne(a => a.MediTest).HasForeignKey(a=>a.MediTestId);
+            builder.Ignore("LazyLoader");
         }
     }
 }

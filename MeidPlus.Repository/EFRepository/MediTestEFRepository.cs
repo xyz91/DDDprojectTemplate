@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Text;
 using MediPlus.Domain.IRepositories;
-using MediPlus.Domain.IRepositories.Context;
 using MediPlus.Domain.Model;
 using MeidPlus.Repository.EFRepository;
 using MeidPlus.Repository.EFRepository.Base;
@@ -12,7 +11,7 @@ namespace MeidPlus.Repository.EFRepository
 {
   internal  class MediTestEFRepository: EFBaseRepository<MediTest, string>, IMediTestEFRepository
     {
-        public MediTestEFRepository(IMediPlusContext context):base(context) { 
+        public MediTestEFRepository(MediPlusContext context):base(context) { 
         
         }
     }

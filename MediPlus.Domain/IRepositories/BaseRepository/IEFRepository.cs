@@ -15,7 +15,19 @@ namespace MediPlus.Domain.IRepositories.BaseRepository
     /// <typeparam name="K"></typeparam>
     public interface IEFRepository<T,K> where T : AggregateRoot<K>
     {
-        void Load<P>(T t, Expression<Func<T, IEnumerable<P>>> expression) where P : class;
+        /// <summary>
+        /// 加载集合属性
+        /// </summary>
+        /// <typeparam name="P"></typeparam>
+        /// <param name="t"></param>
+        /// <param name="expression"></param>
+        void Load<P>(T t, Expression<Func<T, IEnumerable<P>>> expression, Expression<Func<P, bool>> where = null) where P : class;
+        /// <summary>
+        /// 加载单个属性
+        /// </summary>
+        /// <typeparam name="P"></typeparam>
+        /// <param name="t"></param>
+        /// <param name="expression"></param>
         void Load<P>(T t, Expression<Func<T, P>> expression) where P : class;
     }
 }

@@ -8,13 +8,12 @@ using MongoDB.Driver;
 using System.Linq;
 using MeidPlus.Repository.MongoRepository.Base;
 using MeidPlus.Repository.MongoRepository.Context;
-using MediPlus.Domain.IRepositories.Context;
 
 namespace MeidPlus.Repository.MongoRepository
 {
   internal  class MediTestMongoRepository : MongoBaseRepository<MediTest, string>, IMediTestMongoRepository
     {
-        public MediTestMongoRepository(IMediPlusMongoContext unitOfWork):base(unitOfWork) {
+        public MediTestMongoRepository(MediplusContext unitOfWork):base(unitOfWork) {
            
         }
     }

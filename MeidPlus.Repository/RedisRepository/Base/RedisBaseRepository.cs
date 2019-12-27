@@ -1,5 +1,4 @@
-﻿using MediPlus.Domain.IRepositories.BaseRepository;
-using MediPlus.Domain.IRepositories.Context;
+﻿
 using MeidPlus.Repository.RedisRepository.Context;
 using StackExchange.Redis;
 using System;
@@ -8,15 +7,12 @@ using System.Threading.Tasks;
 using MR = MediPlus.Domain.IRepositories.BaseRepository;
 namespace MeidPlus.Repository.RedisRepository
 {
-    public abstract partial class RedisBaseRepository : IRedisRepository
+    public abstract partial class RedisBaseRepository : MR.IRedisRepository
     {
-        public RedisServerContext RedisServer;
-        public virtual string prefixKey { get; } = "MediPlus";
-        public RedisBaseRepository(IRedisBaseContext context) => RedisServer = context as RedisServerContext;
+        public RedisUnitOfWork RedisServer;
+        public virtual string PrefixKey { get; } = "MediPlus";
+        public RedisBaseRepository(RedisUnitOfWork context) => RedisServer = context;
         private T Do<T>(Func<IDatabase, T> func) => func(RedisServer.Database);
-        //private T Do<T>(Func<ISubscriber,T> func) {
-        //    return func(RedisServer.Subscriber);
-        //}
 
         private string Do(Func<IDatabase, RedisValue> func)
         {
@@ -147,7 +143,7 @@ namespace MeidPlus.Repository.RedisRepository
         }
         private void Do(Action<ISubscriber> action) => action(RedisServer.Subscriber);
         private void Do(Action<IDatabase> action) => action(RedisServer.Database);
-        private RedisKey AddPreFixKey(string oldKey) => $"{prefixKey}:{oldKey}";
+        private RedisKey AddPreFixKey(string oldKey) => $"{PrefixKey}:{oldKey}";
 
 
 

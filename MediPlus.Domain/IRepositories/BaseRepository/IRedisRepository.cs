@@ -312,7 +312,7 @@ namespace MediPlus.Domain.IRepositories.BaseRepository
         /// <param name="key">redis key</param>
         /// <param name="expiry"></param>
         /// <returns></returns>
-        bool KeyExpire(string key, TimeSpan? expiry = null);
+        bool KeyExpire(string key, int expiredSeconds = 60 * 3);
 
         /// <summary>
         /// 设置Key的时间
@@ -320,7 +320,7 @@ namespace MediPlus.Domain.IRepositories.BaseRepository
         /// <param name="key">redis key</param>
         /// <param name="expiry"></param>
         /// <returns></returns>
-        Task<bool> KeyExpireAsync(string key, TimeSpan? expiry = null);
+        Task<bool> KeyExpireAsync(string key, int expiredSeconds = 60 * 3);
 
         #endregion
 
@@ -950,9 +950,9 @@ namespace MediPlus.Domain.IRepositories.BaseRepository
         /// </summary>
         /// <param name="key">Redis Key</param>
         /// <param name="value">保存的值</param>
-        /// <param name="expiry">过期时间</param>
+        /// <param name="expirySeconds">过期时间</param>
         /// <returns></returns>
-        bool StringSet(string key, string value, TimeSpan? expiry = null);
+        bool StringSet(string key, string value, int expirySeconds = 60 * 3);
 
 
         /// <summary>
@@ -1005,9 +1005,9 @@ namespace MediPlus.Domain.IRepositories.BaseRepository
         /// </summary>
         /// <param name="key">Redis Key</param>
         /// <param name="value">保存的值</param>
-        /// <param name="expiry">过期时间</param>
+        /// <param name="expirySeconds">过期时间</param>
         /// <returns></returns>
-        Task<bool> StringSetAsync(string key, string value, TimeSpan? expiry = null);
+        Task<bool> StringSetAsync(string key, string value, int expirySeconds = 60 * 3);
 
 
         /// <summary>
@@ -1092,10 +1092,10 @@ namespace MediPlus.Domain.IRepositories.BaseRepository
         /// 加锁
         /// </summary>
         /// <param name="key">key</param>
-        /// <param name="time">锁定时间 不传默认30秒</param>
+        /// <param name="expirySeconds">锁定时间</param>
         /// <param name="token">token 不传默认当前机器名</param>
         /// <returns></returns>
-        bool Lock(string key, TimeSpan? time = null, string token = null);
+        bool Lock(string key, int expirySeconds = 30, string token = null);
         /// <summary>
         /// 释放锁
         /// </summary>
@@ -1107,10 +1107,10 @@ namespace MediPlus.Domain.IRepositories.BaseRepository
         /// 加锁
         /// </summary>
         /// <param name="key">key</param>
-        /// <param name="time">锁定时间 不传默认30秒</param>
+        /// <param name="expirySeconds">锁定时间</param>
         /// <param name="token">token 不传默认当前机器名</param>
         /// <returns></returns>
-        Task<bool> LockAsync(string key, TimeSpan? time = null, string token = null);
+        Task<bool> LockAsync(string key, int expirySeconds = 30, string token = null);
         /// <summary>
         /// 释放锁
         /// </summary>

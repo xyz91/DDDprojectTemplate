@@ -11,5 +11,7 @@ namespace MediPlus.Service.Interface
     {
         int AddNode(string id,params MediTestNodeDTO[] dto);
         Task<int> AddNodeAsync(string id, params MediTestNodeDTO[] dto);
+        bool StringSet(string key, string value, int time);
+        string StringGet(string key);
     }
 }

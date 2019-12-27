@@ -2,6 +2,7 @@
 using MediPlus.Domain.Model;
 using MediPlus.DTO;
 using MediPlus.Service.Interface;
+using System;
 using System.Threading.Tasks;
 
 namespace MediPlus.Service
@@ -9,7 +10,11 @@ namespace MediPlus.Service
     internal class MediTestService : BaseUnitService<MediTest, string, MediTestDTO>, IMediTestService
     {
         private new readonly IMediTestEFRepository repository;
-        public MediTestService(IMediTestEFRepository repository) : base(repository) => this.repository = repository;
+        private IMediTestRedisRepository redisRepository;
+        public MediTestService(IMediTestEFRepository repository, IMediTestRedisRepository redisRepository) : base(repository) {
+            this.repository = repository;
+            this.redisRepository = redisRepository;
+        }
         public int AddNode(string id, params MediTestNodeDTO[] dto)
         {
             MediTest medi = GetById(id);
@@ -22,6 +27,13 @@ namespace MediPlus.Service
             MediTest medi = await GetByIdAsnyc(id);
             medi.AddNode(Map<MediTestNodeDTO[], MediTestNode[]>(dto));
             return await UpdateAsync(medi);
+        }
+
+        public bool StringSet(string key,string value,int time) {
+           return redisRepository.StringSet(key, value,time);
+        }
+        public string StringGet(string key) {
+            return redisRepository.StringGet(key);
         }
     }
 }

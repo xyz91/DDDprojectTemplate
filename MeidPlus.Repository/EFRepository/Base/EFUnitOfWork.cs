@@ -16,13 +16,13 @@ using System.Threading.Tasks;
 
 namespace MeidPlus.Repository.EFRepository.Base
 {
-    public abstract class EFUnitOfWork : DbContext, IUnitOfWork, IUnionOfWork
+    public abstract class EFUnitOfWork : DbContext, IUnitOfWork
     {
         protected abstract string Constr { get; }
         protected IConfiguration Configuration { get; }
 
-        public static readonly ILoggerFactory Logger
-     = LoggerFactory.Create(builder => { builder.AddConsole(); });
+        //public static readonly LoggerFactory Logger = new LoggerFactory(new[] { new ConsoleLoggerProvider((_, __) => true, true) });
+        public static readonly ILoggerFactory Logger = LoggerFactory.Create(builder => { builder.AddConsole(); });
         protected EFUnitOfWork(IConfiguration configuration) => Configuration = configuration;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -35,7 +35,6 @@ namespace MeidPlus.Repository.EFRepository.Base
             optionsBuilder.EnableSensitiveDataLogging(true);
             optionsBuilder.ConfigureWarnings(warn => warn.Log(CoreEventId.DetachedLazyLoadingWarning));
         }
-        public bool IsCommitted { get; set; }
 
         public int Commit()
         {
@@ -44,16 +43,25 @@ namespace MeidPlus.Repository.EFRepository.Base
             List<IEventData> events = entity.SelectMany(a => a.EventDatas).ToList();
             //DoEvent(events, EventType.BeforeSave);
             int result = SaveChanges();
-            Task<int> o = SaveChangesAsync();
             try
             {
                 if (result > 0 && events != null && events.Count > 0)
                 {
-                    DoEvent(events, EventType.AfterSave);
-                    foreach (Obj item in entity)
-                    {
-                        item.ClearEvents();
-                    }
+                    Task.Factory.StartNew(a=> {
+                        try {
+                            dynamic obj = (dynamic)a;
+                            DoEvent(obj.events, EventType.AfterSave);
+                            foreach (Obj item in obj.entity)
+                            {
+                                item.ClearEvents();
+                            }
+                        } catch( Exception e) {
+                            Console.WriteLine($"{e.Message},{e.StackTrace}");
+                        }
+                        
+
+                    },new { events, entity });
+                    
                 }
             }
             catch (Exception ex)
@@ -70,13 +78,14 @@ namespace MeidPlus.Repository.EFRepository.Base
             int result = await SaveChangesAsync();
             if (result > 0 && events != null && events.Count > 0)
             {
-       
-                await Task.Run(() =>
+
+                await Task.Factory.StartNew((a) =>
                 {
                     try
-                    {     
-                        DoEvent(events, EventType.AfterSave);
-                        foreach (Obj item in entity)
+                    {
+                        dynamic obj = (dynamic)a;
+                        DoEvent(obj.events, EventType.AfterSave);
+                        foreach (Obj item in obj.entity)
                         {
                             item.ClearEvents();
                         }
@@ -85,7 +94,7 @@ namespace MeidPlus.Repository.EFRepository.Base
                     {
                         Console.WriteLine($"{ex.Message},{ex.StackTrace}");
                     }
-                });
+                }, new { events, entity });
             }
 
             return result;

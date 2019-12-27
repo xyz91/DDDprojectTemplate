@@ -1,5 +1,4 @@
 ﻿using MediPlus.Domain.IRepositories.BaseRepository;
-using MediPlus.Domain.IRepositories.Context;
 using Microsoft.Extensions.Configuration;
 using StackExchange.Redis;
 using System;

@@ -7,7 +7,7 @@ namespace MediPlus.Domain.Event
 {
     public class MediTestAddNodeEventData : EventData
     {
-        public MediTestNode[] MediTestNodes { get; set; }
+        public IEnumerable<MediTestNode> MediTestNodes { get; set; }
         public MediTest MediTest { get; set; }
     }
 }

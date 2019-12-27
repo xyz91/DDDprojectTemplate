@@ -7,6 +7,6 @@ namespace MediPlus.DTO
     public class MediTestDTO:EntityDTO<string>
     {
         public string Name { get; set; }
-        public List<MediTestNodeDTO> MediTestNodes { get; set; }
+        public List<MediTestNodeDTO> MediTestNodes { get; set; } = new List<MediTestNodeDTO>();
     }
 }

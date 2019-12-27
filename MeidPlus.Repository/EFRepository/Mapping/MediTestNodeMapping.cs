@@ -13,6 +13,8 @@ namespace MeidPlus.Repository.EFRepository.Mapping
             builder.ToTable("MeditTestNode").HasKey(a => a.Id);
             builder.Property(a => a.Id).ValueGeneratedOnAdd();
             builder.Property(a => a.Name).HasColumnName("nodename");
+            builder.Property(a => a.MediTestId).HasColumnName("MediTestId");
+            builder.Ignore(a => a.Age);
         }
     }
 }

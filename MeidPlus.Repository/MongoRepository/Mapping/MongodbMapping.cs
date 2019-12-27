@@ -16,16 +16,20 @@ namespace MeidPlus.Repository.MongoRepository.Mapping
 {
    public class MongodbMapping
     {
-      
+      /// <summary>
+      /// 映射mongodb数据
+      /// </summary>
         public static void Register() {
             BsonClassMap.RegisterClassMap<Obj>(a => {
                 a.AutoMap();
+                a.UnmapProperty(b=>b.EventDatas);
                 a.SetIgnoreExtraElements(true);
                 a.SetIgnoreExtraElementsIsInherited(true);
                 
             });
             BsonClassMap.RegisterClassMap<Entity<string>>(a=> {
                 a.AutoMap();
+               // a.MapIdField("_id").SetElementName("Id")
                 a.MapIdProperty(p => p.Id)
                     .SetIdGenerator(StringObjectIdGenerator.Instance)
                     .SetSerializer(new StringSerializer().
@@ -33,11 +37,14 @@ namespace MeidPlus.Repository.MongoRepository.Mapping
             });
             BsonClassMap.RegisterClassMap<Entity<int>>(a => {
                 a.AutoMap();
+               // a.MapIdField("_id").SetElementName("Id");
                 a.MapIdProperty(p => p.Id);                   
             });
 
             BsonClassMap.RegisterClassMap<MediTest>(a=> {
                 a.AutoMap();
+                a.MapField("_mediTestNodes").SetElementName("MediTestNodes");
+                a.UnmapProperty(b=>b.MediTestNodes);
             });
             BsonClassMap.RegisterClassMap<MediTestNode>(a=> {
                 a.AutoMap();

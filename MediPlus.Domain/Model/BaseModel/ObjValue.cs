@@ -4,7 +4,10 @@ using System.Text;
 
 namespace MediPlus.Domain.Model.BaseModel
 {
-   public class ObjValue :Obj
+    /// <summary>
+    /// 值对象基类
+    /// </summary>
+   public abstract class ObjValue :Obj
     {
     }
 }

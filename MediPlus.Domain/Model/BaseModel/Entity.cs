@@ -6,13 +6,17 @@ using MediPlus.Domain.Model.BaseModel;
 
 namespace MediPlus.Domain.Model
 {
+    /// <summary>
+    /// 实体根
+    /// </summary>
+    /// <typeparam name="K"></typeparam>
    public abstract class Entity<K>:Obj,IEntity 
     {
         protected Entity(K k)
         {
             this.Id = k;
         }
-        public virtual K Id { get; protected set; }
+        public  K Id { get; private set; }
 
         
     }

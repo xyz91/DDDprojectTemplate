@@ -7,6 +7,7 @@ namespace MediPlus.DTO
    public class MediTestNodeDTO :EntityDTO<int>
     {
         public string Name { get; set; }
+        public int Age { get; set; }
         public virtual MediTestDTO MediTest { get; set; }
     }
 }
