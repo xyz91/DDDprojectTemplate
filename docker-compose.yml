@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  mediplus.api:
+    image: ${DOCKER_REGISTRY-}mediplus
+    build:
+      context: .
+      dockerfile: MediPlus.API/Dockerfile

@@ -1,0 +1,44 @@
+stages:
+ - build
+ - push
+ - deploy
+build:
+  stage: build
+  script:
+    - dotnet build MediPlus.Api/MediPlus.Api.csproj -c Release
+  tags:
+   - mediplus
+#  artifacts:
+#   name: mediplus-${CI_COMMIT_REF_NAME}
+#   paths:
+#    - MediPlus.Api\bin\Release\netcoreapp2.2\publish
+push:
+  stage: push
+  script:
+   - mediplus_version=`cat MediPlus.Api/global.json|awk -F":" '/"version":\s*"v/{print $2}'|awk -F'"' '{print $2}'`
+   - echo $mediplus_version
+   - docker-compose build
+   - docker tag mediplus:latest registry.cn-shanghai.aliyuncs.com/cxa/mediplus:$mediplus_version
+   - docker login --username=$ali_username --password=$ali_password registry.cn-shanghai.aliyuncs.com   
+   - docker push registry.cn-shanghai.aliyuncs.com/cxa/mediplus:$mediplus_version
+   - docker rmi registry.cn-shanghai.aliyuncs.com/cxa/mediplus:$mediplus_version
+   - docker rmi mediplus
+   - docker images|grep none|awk '{print $3}'|xargs docker rmi
+  tags:
+   - mediplus
+  only:
+   - master
+  when: manual
+deploy:
+  stage: deploy
+  script:
+   - mediplus_version=`cat MediPlus.Api/global.json|awk -F":" '/"version":\s*"v/{print $2}'|awk -F'"' '{print $2}'`
+   - echo $mediplus_version
+   - ssh testserver "docker stop mediplus || true"
+   - ssh testserver "docker rm mediplus || true"
+   - ssh testserver "docker login --username=$ali_username --password=$ali_password registry.cn-shanghai.aliyuncs.com;docker run -d --name mediplus -p 18077:80 registry.cn-shanghai.aliyuncs.com/cxa/mediplus:$mediplus_version"
+  tags:
+   - mediplus
+  only:
+   - master
+  when: manual
